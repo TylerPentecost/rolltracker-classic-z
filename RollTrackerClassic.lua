@@ -539,6 +539,7 @@ function RTC.OptionsInit()
 	RTCO_CheckBox("RejectOutBounds", false)	
 	RTCO_CheckBox("AnnounceIgnoreDouble", true)	
 	RTCO_CheckBox("AnnounceRejectOutBounds",false)
+	RTCO_CheckBox("PromoteRolls", false)
 	RTC.Options.AddSpace()
 	RTCO_CheckBox("NeedAndGreed",false)
 	RTCO_CheckBox("ShowNotRolled",true)
@@ -1178,6 +1179,10 @@ function RTC.AddRoll(name,roll,low,high)
 	end
 	
 	if ok then
+	
+		if RTC.DB.PromoteRolls and tonumber(roll) == 69 then
+			roll = "101"
+		end
 	
 		RTC.rollNames[name] = RTC.rollNames[name] and RTC.rollNames[name] + 1 or 1
 		table.insert(RTC.rollArray, {
