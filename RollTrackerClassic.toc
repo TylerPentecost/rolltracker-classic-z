@@ -1,0 +1,15 @@
+## Interface: 11304
+## Title: RollTracker Classic
+## Notes: Keeps tracks of /rolls, loot and more
+## Version: 2.21
+## Author: GPI / Erytheia-Razorfen
+## DefaultState: enabled
+## SavedVariables: RollTrackerClassicDB,RollTrackerClassicLoot
+
+LibGPIOptions.lua
+LibGPIMinimapButton.lua
+LibGPIToolBox.lua
+Localization.lua
+RollTrackerClassic.lua
+RollTrackerClassic.xml
+
