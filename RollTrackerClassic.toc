@@ -4,7 +4,7 @@
 ## Version: 2.21
 ## Author: GPI / Erytheia-Razorfen
 ## DefaultState: enabled
-## SavedVariables: RollTrackerClassicDB,RollTrackerClassicLoot
+## SavedVariables: RollTrackerClassicZDB,RollTrackerClassicZLoot
 
 LibGPIOptions.lua
 LibGPIMinimapButton.lua

@@ -711,7 +711,7 @@ function RTC.GetLocale()
 	end
 	RTC.PassTags[DefaultEnGB.pass]=true
 	
-	if RollTrackerClassicDB and RollTrackerClassicDB.OnDebug then
+	if RollTrackerClassicZDB and RollTrackerClassicZDB.OnDebug then
 		for lkey,loc in pairs(locales) do
 			if loc["MsgStart"] then
 				for key,value in pairs(DefaultEnGB) do
@@ -726,8 +726,8 @@ function RTC.GetLocale()
 	
 	local L = locales[GetLocale()] or {}
 	
-	if RollTrackerClassicDB and RollTrackerClassicDB.CustomLocales and type(RollTrackerClassicDB.CustomLocales) == "table" then
-		for key,value in pairs(RollTrackerClassicDB.CustomLocales) do
+	if RollTrackerClassicZDB and RollTrackerClassicZDB.CustomLocales and type(RollTrackerClassicZDB.CustomLocales) == "table" then
+		for key,value in pairs(RollTrackerClassicZDB.CustomLocales) do
 			if value~=nil and value ~="" then
 				L[key.."_org"]=L[key]
 				L[key]=value

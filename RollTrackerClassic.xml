@@ -277,7 +277,7 @@
 			
 			<!-- LOOTFRAME -->
 			
-			<Frame name="RollTrackerClassicLootFrame" hidden="true" >
+			<Frame name="RollTrackerClassicZLootFrame" hidden="true" >
 				<Anchors>
 					<Anchor point="TOPLEFT" >
 						<Offset>
