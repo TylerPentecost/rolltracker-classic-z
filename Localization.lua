@@ -98,6 +98,7 @@ function RTC.GetLocale()
 			["CboxRejectOutBounds"]="Reject rolls with bounds other than (1-100)",
 			["CboxAnnounceIgnoreDouble"]="Only with [Announce]: Ignore double rolls",
 			["CboxAnnounceRejectOutBounds"]="Only with [Announce]: Reject rolls with bounds other than (1-100)",
+			["CboxPromoteRolls"]="Treat 69 as 101",
 			["CboxNeedAndGreed"]="Use Need '/rnd' and Greed '/rnd 1-50' system, ignores out of bounce",
 			["CboxShowNotRolled"]="Show [Not rolled] button",
 			["CboxAutoLootRolls"]="Open 'Loot Rolls' automatically",
