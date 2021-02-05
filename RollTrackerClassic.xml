@@ -33,7 +33,7 @@
 		
 		<Layers>
 			<Layer level="BACKGROUND">
-				<FontString name="$parentTitle" inherits="GameFontNormal" text="RollTracker Classic" justifyH="LEFT" justifyV="TOP">
+				<FontString name="$parentTitle" inherits="GameFontNormal" text="RollTracker Classic Z" justifyH="LEFT" justifyV="TOP">
 					<Anchors>
 						<Anchor point="TOPLEFT">
 							<Offset>

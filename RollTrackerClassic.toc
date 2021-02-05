@@ -1,5 +1,5 @@
 ## Interface: 11304
-## Title: RollTracker Classic
+## Title: RollTracker Classic Z
 ## Notes: Keeps tracks of /rolls, loot and more
 ## Version: 2.21
 ## Author: GPI / Erytheia-Razorfen
