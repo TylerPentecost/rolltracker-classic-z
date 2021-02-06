@@ -1088,14 +1088,6 @@ local function Event_Generic_CHAT_MSG(msg,name)
 	local dopass=false
 	if RTC.PassTags[msg] then
 		dopass=true		
-	elseif RollTrackerClassicMainWindow:IsVisible() and RTC.Tool.GetSelectedTab(RollTrackerClassicMainWindow)==1 then
-		local parts=RTC.Tool.Split( string.gsub(string.lower(msg), "[%p%s%c]", "+") , "+")
-		for i,txt in ipairs(parts) do
-			if RTC.PassTags[txt] then
-				dopass=true	
-				break
-			end
-		end	
 	end
 	if dopass then
 		name=RTC.Tool.Split(name, "-")[1]
