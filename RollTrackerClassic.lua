@@ -993,8 +993,8 @@ function RTC.Timers()
 
 	if RTC.Countdown ~=nil then
 		local sec=math.floor(RTC.Countdown-GetTime()+0.999)
-		if sec>10 then
-			sec=math.floor((sec+4)/5)*5
+		if sec>5 then
+			sec=math.floor((sec+9)/10)*10
 		end
 		
 		if sec ~= lastCountDown then
