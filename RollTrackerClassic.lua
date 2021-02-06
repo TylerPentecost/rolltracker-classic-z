@@ -540,6 +540,7 @@ function RTC.OptionsInit()
 	RTCO_CheckBox("AnnounceIgnoreDouble", true)	
 	RTCO_CheckBox("AnnounceRejectOutBounds",false)
 	RTCO_CheckBox("PromoteRolls", false)
+	RTCO_CheckBox("AutoCountdownWithItem", false)
 	RTC.Options.AddSpace()
 	RTCO_CheckBox("NeedAndGreed",false)
 	RTCO_CheckBox("ShowNotRolled",true)
@@ -1374,6 +1375,10 @@ function RTC.StartRoll (...)
 	RTC.AddChat(RTC.MSGPREFIX_START .. string.format(msg,L["pass"]))
 	if item and item~="" and item~=" " then
 		RTC.AddChat(RTC.MSGPREFIX .. string.format(L["MsgNextItem"],item))
+
+		if RTC.DB.AutoCountdownWithItem then
+			RTC.StartCountdown()
+		end
 	end
 	RTC.AddChat(L["MsgBar"])
 end	
