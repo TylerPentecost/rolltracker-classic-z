@@ -1439,10 +1439,10 @@ function RTC.RollAnnounce (numbers)
 			if (RTC.DB.AnnounceIgnoreDouble==false or roll.Count==1) and
 			  (RTC.DB.AnnounceRejectOutBounds==false or (roll.Low==1 and roll.High==100)) then
 		
-				if roll.Roll==max then
+				if roll.Roll==max and roll.Roll ~= 0 then
 					winNum=winNum+1
 					winName=winName..", "..roll.Name
-				elseif roll.Roll>max then
+				elseif roll.Roll > max and roll.Roll ~= 0 then
 					max=roll.Roll
 					winNum=1
 					winName=roll.Name
