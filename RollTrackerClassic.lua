@@ -835,6 +835,7 @@ function RTC.Init ()
 	RTC.rollUndoArray = {}
 	RTC.rollUndoNames = {}
 	RTC.lootUndo={}
+	RTC.lastItem = nil
 	
 	RTC.LootHistoryCloseTimer=0	
 	RTC.LootHistoryCountHandle=0
@@ -1003,6 +1004,7 @@ function RTC.Timers()
 				RTC.AddChat(RTC.MSGPREFIX .. sec)
 			else
 				RTC.RollAnnounce()
+				RTC.lastItem = nil
 				if RTC.DB.ClearOnAnnounce then
 					RTC.ClearRolls()
 				end
@@ -1377,6 +1379,7 @@ function RTC.StartRoll (...)
 		RTC.AddChat(RTC.MSGPREFIX .. string.format(L["MsgNextItem"],item))
 
 		if RTC.DB.AutoCountdownWithItem then
+			RTC.lastItem = item
 			RTC.StartCountdown()
 		end
 	end
@@ -1460,10 +1463,14 @@ function RTC.RollAnnounce (numbers)
 		end
 	end
 	
-	if winNum==1 then 
+	if winNum==1 and RTC.lastItem == nil then 
 		msg=RTC.MSGPREFIX .. addPrefix .. string.format(L["MsgAnnounce"] ,winName,max) 
-	elseif winNum>1 then
+	elseif winNum == 1 and RTC.lastItem ~= nil then
+		msg=RTC.MSGPREFIX .. addPrefix .. string.format(L["MsgAnnounceItem"] ,winName,RTC.lastItem,max)
+	elseif winNum>1 and RTC.lastItem == nil then
 		msg=RTC.MSGPREFIX .. addPrefix .. string.format(L["MsgAnnounceTie"] ,winName,max) 
+	elseif winNum > 1 and RTC.lastItem ~= nil then
+		msg=RTC.MSGPREFIX .. addPrefix .. string.format(L["MsgAnnounceTieItem"] ,winName,RTC.lastItem,max) 
 	elseif RTC.Countdown then
 		msg=RTC.MSGPREFIX .. L["MsgForcedAnnounce"]
 	end
