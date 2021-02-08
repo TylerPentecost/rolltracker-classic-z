@@ -11,9 +11,7 @@ function RTC.GetLocale()
 			["MsgRollCleared"] = "All rolls have been cleared.",
 			["MsgUndoRoll"]="Undo all rolls.",
 			["MsgAnnounce"] = "%s won with a roll of %d.",
-			["MsgAnnounceItem"] = "%s won %s with a roll of %d.",
 			["MsgAnnounceTie"] = "Tie, %s won with a roll of %d.",
-			["MsgAnnounceTieItem"] = "Tie, %s won %s with a roll of %d.",
 			["MsgNotRolled"]="The following people still need to roll or say '%s'",
 			["MsgCheat"]="Ignoring %s's roll of %s (%s-%s).",  -- (player, roll, max_roll, min_roll)
 			["MsgStart"]="New roll starting now! Type '/rnd' or '%s'",
@@ -101,7 +99,6 @@ function RTC.GetLocale()
 			["CboxAnnounceIgnoreDouble"]="Only with [Announce]: Ignore double rolls",
 			["CboxAnnounceRejectOutBounds"]="Only with [Announce]: Reject rolls with bounds other than (1-100)",
 			["CboxPromoteRolls"]="Treat 69 as 101",
-			["CboxAutoCountdownWithItem"]="Automatically start Countdown when linking item",
 			["CboxNeedAndGreed"]="Use Need '/rnd' and Greed '/rnd 1-50' system, ignores out of bounce",
 			["CboxShowNotRolled"]="Show [Not rolled] button",
 			["CboxAutoLootRolls"]="Open 'Loot Rolls' automatically",

@@ -540,7 +540,6 @@ function RTC.OptionsInit()
 	RTCO_CheckBox("AnnounceIgnoreDouble", true)	
 	RTCO_CheckBox("AnnounceRejectOutBounds",false)
 	RTCO_CheckBox("PromoteRolls", false)
-	RTCO_CheckBox("AutoCountdownWithItem", false)
 	RTC.Options.AddSpace()
 	RTCO_CheckBox("NeedAndGreed",false)
 	RTCO_CheckBox("ShowNotRolled",true)
@@ -835,7 +834,6 @@ function RTC.Init ()
 	RTC.rollUndoArray = {}
 	RTC.rollUndoNames = {}
 	RTC.lootUndo={}
-	RTC.lastItem = nil
 	
 	RTC.LootHistoryCloseTimer=0	
 	RTC.LootHistoryCountHandle=0
@@ -994,8 +992,8 @@ function RTC.Timers()
 
 	if RTC.Countdown ~=nil then
 		local sec=math.floor(RTC.Countdown-GetTime()+0.999)
-		if sec>5 then
-			sec=math.floor((sec+9)/10)*10
+		if sec>10 then
+			sec=math.floor((sec+4)/5)*5
 		end
 		
 		if sec ~= lastCountDown then
@@ -1004,7 +1002,6 @@ function RTC.Timers()
 				RTC.AddChat(RTC.MSGPREFIX .. sec)
 			else
 				RTC.RollAnnounce()
-				RTC.lastItem = nil
 				if RTC.DB.ClearOnAnnounce then
 					RTC.ClearRolls()
 				end
@@ -1091,6 +1088,14 @@ local function Event_Generic_CHAT_MSG(msg,name)
 	local dopass=false
 	if RTC.PassTags[msg] then
 		dopass=true		
+	elseif RollTrackerClassicMainWindow:IsVisible() and RTC.Tool.GetSelectedTab(RollTrackerClassicMainWindow)==1 then
+		local parts=RTC.Tool.Split( string.gsub(string.lower(msg), "[%p%s%c]", "+") , "+")
+		for i,txt in ipairs(parts) do
+			if RTC.PassTags[txt] then
+				dopass=true	
+				break
+			end
+		end	
 	end
 	if dopass then
 		name=RTC.Tool.Split(name, "-")[1]
@@ -1377,11 +1382,6 @@ function RTC.StartRoll (...)
 	RTC.AddChat(RTC.MSGPREFIX_START .. string.format(msg,L["pass"]))
 	if item and item~="" and item~=" " then
 		RTC.AddChat(RTC.MSGPREFIX .. string.format(L["MsgNextItem"],item))
-
-		if RTC.DB.AutoCountdownWithItem then
-			RTC.lastItem = item
-			RTC.StartCountdown()
-		end
 	end
 	RTC.AddChat(L["MsgBar"])
 end	
@@ -1447,10 +1447,10 @@ function RTC.RollAnnounce (numbers)
 			if (RTC.DB.AnnounceIgnoreDouble==false or roll.Count==1) and
 			  (RTC.DB.AnnounceRejectOutBounds==false or (roll.Low==1 and roll.High==100)) then
 		
-				if roll.Roll==max and roll.Roll ~= 0 then
+				if roll.Roll==max then
 					winNum=winNum+1
 					winName=winName..", "..roll.Name
-				elseif roll.Roll > max and roll.Roll ~= 0 then
+				elseif roll.Roll>max then
 					max=roll.Roll
 					winNum=1
 					winName=roll.Name
@@ -1463,14 +1463,10 @@ function RTC.RollAnnounce (numbers)
 		end
 	end
 	
-	if winNum==1 and RTC.lastItem == nil then 
+	if winNum==1 then 
 		msg=RTC.MSGPREFIX .. addPrefix .. string.format(L["MsgAnnounce"] ,winName,max) 
-	elseif winNum == 1 and RTC.lastItem ~= nil then
-		msg=RTC.MSGPREFIX .. addPrefix .. string.format(L["MsgAnnounceItem"] ,winName,RTC.lastItem,max)
-	elseif winNum>1 and RTC.lastItem == nil then
+	elseif winNum>1 then
 		msg=RTC.MSGPREFIX .. addPrefix .. string.format(L["MsgAnnounceTie"] ,winName,max) 
-	elseif winNum > 1 and RTC.lastItem ~= nil then
-		msg=RTC.MSGPREFIX .. addPrefix .. string.format(L["MsgAnnounceTieItem"] ,winName,RTC.lastItem,max) 
 	elseif RTC.Countdown then
 		msg=RTC.MSGPREFIX .. L["MsgForcedAnnounce"]
 	end
