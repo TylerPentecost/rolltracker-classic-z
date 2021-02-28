@@ -7,105 +7,6 @@ local L = setmetatable({}, {
 })
 
 RollTrackerClassic_Addon = RTC
-
---[[
-
-RollTracker Classic 
-2.21
-- TOC-Update
-- LootHistory/Rolls: When closed, set all rolls to "done" for autoclose-feature
-
-2.20 
-- release
-
-2.11
-- improved pass detection
-- "I pass" should work, when the rtc-window is open and the roll-tab is selected
-
-2.10
-- Fix Korean-Detection
-- Add Playernote to every Player-Tooltip
-
-2.02
-- Add Player-Tooltip in rolls and loot tab
-- click on a player name to add a note
-- When loot tracker is activ show last 10 loots in tooltip
-- New Command: /rtc notes -- output all player notes
-- New command: /rtc clear notes -- clear all player notes
-
-2.01
-- Korean translation by BattleE, classe82
-- Simplified Chinese translation by kokpk
-
-2.00
-- remove /rt (again)
-- russian update by Arrogant_Dreamer 
-
-1.92
-- Option to Enable/disable on overworld, in battleground, in dungeon, in raiddungeon
-
-1.91
-- TOC-Update
-
-1.90 
-- Option: Change color of every text
-- Option: Announce automatic rolls.
-
-1.81 Beta
-- /rtc announce <value> - output the <value> highest rolls.
-- New option to always output a list with the highest rolls.
-- /rt removed - because of conflict with other addons, use /rtc instead.
-- change guild-rank-color to green
-- rank of own guild should now always visible		
-
-1.80
-- Optional: Show Guild and Rank (Members need to be near the player!)
-- Optional: Countdown - rightclick on "Announce" or "/rtc cd"
-- Code-Optimisation
-
-1.72
-- bugfix /rt - command
-- Commands "/rt raidroll" & "/rt raidroll list"
-
-1.71
-- bugfix
-
-1.70
-- fix priest icon
-- Export-Button for CSV
-- About-Panel		
-
-1.64
-- whitelist
-- Option LootTracker "Enable"
-- Option LootTracker "Maximum stored loot"
-- Option LootTracker "Small font"
-- Option LootTracker "Show item icon"		
-
-1.63
-- track on ItemType
-- change jokers to %joker%
-- option track solo/group/raid<=10/raid>10
-- option ShortMessage
-
-1.62
-- workaround for a bug
-- improvments for loot-tracker
-
-1.61
-- use hooksecurefunc for clearloots
-- include LootTracker and CSV Export
-
-
-
-based on RollTracker Lite v0.4 - by Jerry Chong. <zanglang@gmail.com>
-Originally written by Coth of Gilneas and Morodan of Khadgar.
-Russian translation by tierggg and Hubbotu
-	
-
-]] --
-
-
 RTC.Version = GetAddOnMetadata(TOCNAME, "Version")
 RTC.Title = GetAddOnMetadata(TOCNAME, "Title")
 
@@ -843,7 +744,6 @@ function RTC.Init()
     RTC.PatternRoll = RTC.Tool.CreatePattern(RANDOM_ROLL_RESULT)
     RTC.PatternLoot = RTC.Tool.CreatePattern(LOOT_ITEM, true)
     RTC.PatternLootOwn = RTC.Tool.CreatePattern(LOOT_ITEM_SELF, true)
-    RTC.PatternCreateOwn = RTC.Tool.CreatePattern(LOOT_ITEM_CREATED_SELF, true)
 
     -- settings
     if not RollTrackerClassicZDB then RollTrackerClassicZDB = {} end -- fresh DB
@@ -1077,11 +977,6 @@ local function Event_CHAT_MSG_LOOT(arg1)
     if name ~= nil and item ~= nil then
         RTC.AddLoot(name, item)
     end
-
-    -- You create : %s|Hitem :%d :%d :%d :%d|h[%s]|h%s.
-    --for item,b,c,d in string.gmatch(arg1, RTC.PatternCreateOwn) do
-    --	RTC.AddLoot(GetUnitName("player"),item)
-    --end
 end
 
 local function Event_CHAT_MSG_SYSTEM(arg1)
@@ -1128,7 +1023,7 @@ function RTC.OnLoad()
     RTC.Tool.RegisterEvent("CHAT_MSG_RAID_LEADER", Event_Generic_CHAT_MSG)
 end
 
--- Roll 
+-- Roll
 
 function RTC.RaidRoll()
     RTC.IsRaidRoll = RTC.GetPlayerList(true)
@@ -1711,4 +1606,3 @@ function RTC.BtnExport()
     end
     RTC.Tool.CopyPast(Text)
 end
-	
