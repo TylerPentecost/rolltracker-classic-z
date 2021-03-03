@@ -22,7 +22,7 @@ jobs:
         hererocks lua_install -r^ --lua=5.1
         echo "$PATH=$PATH:$GITHUB_WORKSPACE/lua_install/bin" >> $GITHUB_ENV
         echo "$GITHUB_WORKSPACE/lua_install/bin"
-        echo "$GITHUB_ENV}
+        echo "$GITHUB_ENV"
         luarocks install luacheck
         luarocks install mockagne 1.0
         luarocks install luaunit
