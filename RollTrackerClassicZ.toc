@@ -6,9 +6,10 @@
 ## DefaultState: enabled
 ## SavedVariables: RollTrackerClassicZDB,RollTrackerClassicZLoot
 
-LibGPIOptions.lua
-LibGPIMinimapButton.lua
-LibGPIToolBox.lua
+Lib\LibGPIOptions.lua
+Lib\LibGPIMinimapButton.lua
+Lib\LibGPIToolBox.lua
+
 Localization.lua
 RollTrackerClassic.lua
 RollTrackerClassic.xml
