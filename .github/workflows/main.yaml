@@ -35,4 +35,4 @@ jobs:
       run: |
         source ./lua_install/bin/activate
         luacheck --no-max-line-length --no-global --no-unused --allow-defined --std max+busted Localization.lua
-        luacheck --no-max-line-length --no-global --no-unused --allow-defined --std max+busted RollTrackerClassicZ.lua
+        luacheck --no-max-line-length --no-global --no-unused --allow-defined --std max+busted RollTrackerClassic.lua
