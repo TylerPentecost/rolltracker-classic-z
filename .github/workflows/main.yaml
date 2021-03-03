@@ -21,6 +21,7 @@ jobs:
         pip install hererocks
         hererocks lua_install -r^ --lua=5.1
         source ./lua_install/bin/activate
+        luarocks install argparse
         luarocks install luacheck
         luarocks install mockagne 1.0
         luarocks install luaunit
