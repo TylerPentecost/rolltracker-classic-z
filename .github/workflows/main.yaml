@@ -33,6 +33,7 @@ jobs:
         luarocks list
     - name: Test with pytest
       run: |
+        source ./lua_install/bin/activate
         luacheck --no-max-line-length --no-global --no-unused --allow-defined --std max+busted Lib/*.lua
         luacheck --no-max-line-length --no-global --no-unused --allow-defined --std max+busted Localization.lua
         luacheck --no-max-line-length --no-global --no-unused --allow-defined --std max+busted RollTrackerClassicZ.lua
