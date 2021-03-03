@@ -29,6 +29,7 @@ jobs:
         luarocks install luacov
         luarocks install luacov-coveralls
         luarocks install luadoc
+        luarocks list
     - name: Test with pytest
       run: |
         luacheck --no-max-line-length --no-global --no-unused --allow-defined --std max+busted Lib/*.lua
