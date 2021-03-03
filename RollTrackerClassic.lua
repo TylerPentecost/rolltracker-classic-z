@@ -55,7 +55,7 @@ function RTC.GetPlayerList(unsort)
         if IsInGuild() and UnitIsInMyGuild(id) then
             rank = "<" .. GuildControlGetRankName(C_GuildInfo.GetGuildRankOrder(UnitGUID(id))) .. ">"
         else
-            local guildName, guildRankName, guildRankIndex, realm = GetGuildInfo(id)
+            guildName, guildRankName, guildRankIndex, realm = GetGuildInfo(id)
             if guildName and guildRankName then
                 rank = "<" .. guildName .. " / " .. guildRankName .. ">"
             end
