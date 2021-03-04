@@ -15,7 +15,7 @@ jobs:
       id: cache-lua
       uses: actions/cache@v2
       with:
-        path: .lua/
+        path: .luarocks/
         key: ${{ runner.os }}-deps-${{ hashFiles('dependencies') }}
     - name: Install Lua Dependencies
       if: steps.cache-lua.outputs.cache-hit != 'true'
