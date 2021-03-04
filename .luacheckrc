@@ -79,3 +79,7 @@ stds.wow = {
   }
 }
 std = "max+busted+wow"
+ignore = {
+  "212",
+  "213",
+}
