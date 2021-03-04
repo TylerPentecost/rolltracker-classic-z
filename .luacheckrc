@@ -74,6 +74,8 @@ stds.wow = {
     "GetItemInfo",
     "tremove",
     "date",
+    "RollTrackerClassicZLootFrameStatusText",
+    "RollTrackerClassicCSVFrame_MessageFrame",
   }
 }
 std = "max+busted+wow"
