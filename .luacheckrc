@@ -3,3 +3,4 @@ stds.wow {
     "GetAddOnMetadata"
   }
 }
+std = "max+busted+wow"
