@@ -31,5 +31,5 @@ jobs:
         luarocks install luadoc
     - name: Analyze and Lint with Luacheck
       run: |
-        luacheck --no-max-line-length --allow-defined Localization.lua
-        luacheck --no-max-line-length --allow-defined RollTrackerClassic.lua
+        luacheck --no-max-line-length --allow-defined -qq Localization.lua
+        luacheck --no-max-line-length --allow-defined -qq RollTrackerClassic.lua
