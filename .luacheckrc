@@ -28,6 +28,23 @@ stds.wow = {
     "UIParent",
     "RollTrackerClassicMainWindow",
     "RollTrackerClassicFramePassButton",
+    "ToggleLootHistoryFrame",
+    "LootHistoryFrame_CollapseAll",
+    "IsShiftKeyDown",
+    "RollTrackerClassicFrameHelperButton",
+    "RollTrackerClassicFrameRollButton",
+    "RollTrackerClassicFrameGreedButton",
+    "RollTrackerClassicFrameAnnounceButton",
+    "RollTrackerClassicFrameClearButton",
+    "RollTrackerClassicFrameNotRolledButton",
+    "RandomRoll",
+    "ITEM_QUALITY_COLORS",
+    "NUM_LE_ITEM_CLASSS",
+    "GetItemClassInfo",
+    "UnitIsPlayer",
+    "StaticPopup_Hide",
+    "StaticPopup_Show",
+    "GameTooltip_SetDefaultAnchor",
   }
 }
 std = "max+busted+wow"
