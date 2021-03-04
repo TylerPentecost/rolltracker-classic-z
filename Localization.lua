@@ -17,7 +17,8 @@ function RTC.GetLocale()
         ["MsgStart"] = "New roll starting now! Type '/rnd' or '%s'",
         ["MsgStartGreenAndNeed"] = "New roll starting now! Type '/rnd' for need, '/rnd 1-50' for greed or '%s'",
         ["MsgNextItem"] = "Next item: %s",
-        ["MsgTooltip"] = "|cffff4040Left click|r to open RTC |n|cffff4040Shift+Left click|r to open 'Loot Rolls'|n|cffff4040Right click|r to open options",
+        ["MsgTooltip"] = "|cffff4040Left click|r to open RTC |n|cffff4040Shift+Left click|r to open"
+                .. " 'Loot Rolls'|n|cffff4040Right click|r to open options",
         ["MsgBar"] = "==============================",
         ["MsgLocalRestart"] = "The setting is not transferred until after a restart (/reload)",
         ["MsgNbLoots"] = "%d stored loot(s).",
