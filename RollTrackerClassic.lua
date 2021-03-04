@@ -373,6 +373,7 @@ function RTC.OptionsUpdate()
     local list = RTC.Tool.Split(RTC.DB.LootTracker.WhiteList)
     RTC.whitelist = {}
     for _, value in ipairs(list) do
+
         RTC.whitelist[value] = true
     end
 
@@ -1241,7 +1242,6 @@ end
 
 function RTC.NotRolled()
     if IsInGroup() or IsInRaid() then
-
         local party = RTC.GetPlayerList()
         local names = ""
         for _, p in ipairs(party) do
