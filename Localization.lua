@@ -4,8 +4,6 @@ local _, RTC = ...
 
 RTC.PassTags = {}
 function RTC.GetLocale()
-    local ColRed = "|cffff4040"
-
     local DefaultEnGB = {
         ["MsgNbRolls"] = "%d Roll(s)",
         ["MsgRollCleared"] = "All rolls have been cleared.",
