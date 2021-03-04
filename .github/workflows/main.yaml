@@ -22,7 +22,7 @@ jobs:
         luarocks install luacov
         luarocks install luacov-coveralls
         luarocks install luadoc
-    - name: Test with pytest
+    - name: Analyze and Lint with Luacheck
       run: |
         luacheck --allow-defined --std max+busted Localization.lua
         luacheck --allow-defined --std max+busted RollTrackerClassic.lua
