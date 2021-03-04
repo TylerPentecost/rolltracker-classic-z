@@ -146,7 +146,7 @@ function RTC.GetLocale()
     local L = {}
     setmetatable(DefaultEnGB,
         {
-            __index = function(t, k)
+            __index = function(_, k)
                 return "[" .. k .. "]"
             end
         })
