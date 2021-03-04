@@ -1,7 +1,6 @@
 local TOCNAME, RTC = ...
 local L = setmetatable({}, {
-    __index = function(t, k)
-        L = RTC.L
+    __index = function(_, k)
         return RTC.L[k]
     end
 })
