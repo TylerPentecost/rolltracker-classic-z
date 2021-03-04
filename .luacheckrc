@@ -2,7 +2,6 @@ stds.wow = {
   read_globals = {
     "GetAddOnMetadata",
     "RollTrackerClassic_Addon",
-    "L",
     "IsInRaid",
     "MAX_RAID_MEMBERS",
     "MAX_PARTY_MEMBERS",
