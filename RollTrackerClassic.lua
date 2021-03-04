@@ -40,7 +40,7 @@ function RTC.GetPlayerList(unsort)
 
 
     for index = start, count do
-        local guildName, guildRankName, guildRankIndex, realm
+        local guildName, guildRankName
         local id
         if index > 0 then
             id = prefix .. index
@@ -48,13 +48,13 @@ function RTC.GetPlayerList(unsort)
             id = "player"
         end
         local name = GetUnitName(id)
-        local localizedClass, englishClass, classIndex = UnitClass(id)
+        local _, englishClass = UnitClass(id)
 
         local rank = ""
         if IsInGuild() and UnitIsInMyGuild(id) then
             rank = "<" .. GuildControlGetRankName(C_GuildInfo.GetGuildRankOrder(UnitGUID(id))) .. ">"
         else
-            guildName, guildRankName, guildRankIndex, realm = GetGuildInfo(id)
+            guildName, guildRankName = GetGuildInfo(id)
             if guildName and guildRankName then
                 rank = "<" .. guildName .. " / " .. guildRankName .. ">"
             end
@@ -150,7 +150,7 @@ function RTC.AddChat(msg)
 end
 
 function RTC.AllowInInstance()
-    local inInstance, instanceType = IsInInstance()
+    local _, instanceType = IsInInstance()
     if instanceType == "arena" then
         instanceType = "pvp"
     elseif instanceType == "scenario" then
@@ -191,7 +191,7 @@ function RTC.LootHistoryShow(rollID)
         ToggleLootHistoryFrame()
     end
     if rollID then
-        LootHistoryFrame.expandedRolls[rollID] = true
+        LootHistoryFrame.expandedRolls[rollID] = true -- luacheck: ignore
         LootHistoryFrame_FullUpdate(LootHistoryFrame)
     end
 end
@@ -296,8 +296,7 @@ function RTC.BtnClearRolls()
     end
 end
 
-function RTC.BtnAnnounce(button)
-
+function RTC.BtnAnnounce()
     RTC.RollAnnounce()
     if RTC.DB.ClearOnAnnounce then
         RTC.ClearRolls()
