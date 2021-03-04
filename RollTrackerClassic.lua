@@ -5,7 +5,7 @@ local L = setmetatable({}, {
     end
 })
 
-RollTrackerClassic_Addon = RTC -- luacheck: unused
+RollTrackerClassic_Addon = RTC -- luacheck: ignore unused
 RTC.Version = GetAddOnMetadata(TOCNAME, "Version")
 RTC.Title = GetAddOnMetadata(TOCNAME, "Title")
 
