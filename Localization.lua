@@ -1,11 +1,9 @@
-local RTC_TOCNAME, RTC = ...
+local _, RTC = ...
 
 -- Basic localizations
 
 RTC.PassTags = {}
 function RTC.GetLocale()
-    local ColRed = "|cffff4040"
-
     local DefaultEnGB = {
         ["MsgNbRolls"] = "%d Roll(s)",
         ["MsgRollCleared"] = "All rolls have been cleared.",
@@ -19,7 +17,8 @@ function RTC.GetLocale()
         ["MsgStart"] = "New roll starting now! Type '/rnd' or '%s'",
         ["MsgStartGreenAndNeed"] = "New roll starting now! Type '/rnd' for need, '/rnd 1-50' for greed or '%s'",
         ["MsgNextItem"] = "Next item: %s",
-        ["MsgTooltip"] = "|cffff4040Left click|r to open RTC |n|cffff4040Shift+Left click|r to open 'Loot Rolls'|n|cffff4040Right click|r to open options",
+        ["MsgTooltip"] = "|cffff4040Left click|r to open RTC |n|cffff4040Shift+Left click|r to open"
+                .. " 'Loot Rolls'|n|cffff4040Right click|r to open options",
         ["MsgBar"] = "==============================",
         ["MsgLocalRestart"] = "The setting is not transferred until after a restart (/reload)",
         ["MsgNbLoots"] = "%d stored loot(s).",
@@ -146,7 +145,7 @@ function RTC.GetLocale()
     local L = {}
     setmetatable(DefaultEnGB,
         {
-            __index = function(t, k)
+            __index = function(_, k)
                 return "[" .. k .. "]"
             end
         })
