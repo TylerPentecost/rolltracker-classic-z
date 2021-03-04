@@ -1,6 +1,33 @@
 stds.wow = {
   read_globals = {
-    "GetAddOnMetadata"
+    "GetAddOnMetadata",
+    "RollTrackerClassic_Addon",
+    "L",
+    "IsInRaid",
+    "MAX_RAID_MEMBERS",
+    "MAX_PARTY_MEMBERS",
+    "GetUnitName",
+    "UnitClass",
+    "IsInGuild",
+    "UnitIsInMyGuild",
+    "GuildControlGetRankName",
+    "C_GuildInfo",
+    "UnitGUID",
+    "GetGuildInfo",
+    "tinsert",
+    "sort",
+    "IsInGroup",
+    "SendChatMessage",
+    "DEFAULT_CHAT_FRAME",
+    "IsInInstance",
+    "C_LootHistory",
+    "hooksecurefunc",
+    "LootHistoryFrame",
+    "LootHistoryFrame_FullUpdate",
+    "wipe",
+    "UIParent",
+    "RollTrackerClassicMainWindow",
+    "RollTrackerClassicFramePassButton",
   }
 }
 std = "max+busted+wow"
