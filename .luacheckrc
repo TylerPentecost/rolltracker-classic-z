@@ -75,6 +75,8 @@ stds.wow = {
     "date",
     "RollTrackerClassicZLootFrameStatusText",
     "RollTrackerClassicCSVFrame_MessageFrame",
+    "GameFontNormal",
+    "GameFontNormalSmall",
   }
 }
 std = "max+busted+wow"

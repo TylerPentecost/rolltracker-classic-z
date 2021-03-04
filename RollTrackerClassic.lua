@@ -372,7 +372,7 @@ function RTC.OptionsUpdate()
 
     local list = RTC.Tool.Split(RTC.DB.LootTracker.WhiteList)
     RTC.whitelist = {}
-    for i, value in ipairs(list) do
+    for _, value in ipairs(list) do
         RTC.whitelist[value] = true
     end
 
@@ -542,11 +542,11 @@ function RTC.OptionsInit()
 
     local locales = getmetatable(L).__index
     local t = {}
-    for key, value in pairs(locales) do
+    for key in pairs(locales) do
         table.insert(t, key)
     end
     table.sort(t)
-    for i, key in ipairs(t) do
+    for _, key in ipairs(t) do
         local col = L[key] ~= locales[key] and "|cffffffff" or "|cffff4040"
         local txt = L[key .. "_org"] ~= "[" .. key .. "_org]" and L[key .. "_org"] or L[key]
 
@@ -623,7 +623,7 @@ function RTC.notes_list()
     end
 end
 
-local function EnterHyperlink(self, link, text)
+local function EnterHyperlink(_, link)
     local part = RTC.Tool.Split(link, ":")
 
     if part[1] == "player" then
@@ -664,11 +664,11 @@ local function EnterHyperlink(self, link, text)
     end
 end
 
-local function LeaveHyperlink(self)
+local function LeaveHyperlink()
     GameTooltip:Hide()
 end
 
-local function ClickHyperlink(self, link, text)
+local function ClickHyperlink(_, link)
     local part = RTC.Tool.Split(link, ":")
     if part[1] == "player" then
         RTC.EditNote(part[2])
@@ -685,7 +685,7 @@ local function initHyperlink(frame)
     if StaticPopupDialogs["RollTrackerClassic_AddNote"] == nil then
         GameTooltip:HookScript("OnTooltipSetUnit", hooked_createTooltip)
 
-        StaticPopupDialogs["RollTrackerClassic_AddNote"] = {
+        StaticPopupDialogs["RollTrackerClassic_AddNote"] = { -- luacheck: ignore
             text = L.MsgAddNote,
             button1 = ACCEPT,
             button2 = CANCEL,
@@ -941,7 +941,7 @@ local function Event_ADDON_LOADED(arg1)
     RTC.Tool.AddDataBrocker(RTC.IconDice, RTC.MenuButtonClick, RTC.MenuToolTip)
 end
 
-local function Event_START_LOOT_ROLL(arg1, arg2, arg3)
+local function Event_START_LOOT_ROLL(arg1, _, arg3)
     --START_LOOT_ROLL: rollID, rollTime, lootHandle
     if RTC.DB.AutoLootRolls then
         RTC.LootHistoryShow(arg1)
@@ -1104,7 +1104,7 @@ function RTC.SortRollsRev(a, b)
     return a.Roll > b.Roll
 end
 
-function RTC.FormatRollText(roll, party, partyName)
+function RTC.FormatRollText(roll, _, partyName)
     local colorTied = RTC.Tool.RGBtoEscape(RTC.DB.ColorNormal)
     local colorCheat = ((roll.Low ~= 1 or roll.High ~= 100) or (roll.Count > 1)) and RTC.Tool.RGBtoEscape(RTC.DB.ColorCheat) or colorTied
     local txtRange = (roll.Low ~= 1 or roll.High ~= 100) and format(" (%d-%d)", roll.Low, roll.High) or ""
@@ -1145,21 +1145,21 @@ function RTC.UpdateRollList()
     -- format and print rolls, check for ties
     if RTC.DB.NeedAndGreed then
         local rtxt = ""
-        for i, roll in pairs(RTC.rollArray) do
+        for _, roll in pairs(RTC.rollArray) do
             if roll.Roll > 0 and roll.High == 100 then
                 rtxt = RTC.FormatRollText(roll, party, partyName) .. rtxt
             end
         end
         rollText = RTC.Tool.RGBtoEscape(RTC.DB.ColorInfo) .. L["TxtNeed"] .. "\n" .. rtxt
         rtxt = ""
-        for i, roll in pairs(RTC.rollArray) do
+        for _, roll in pairs(RTC.rollArray) do
             if roll.Roll == 0 or roll.High == 50 then
                 rtxt = RTC.FormatRollText(roll, party, partyName) .. rtxt
             end
         end
         rollText = rollText .. "\n" .. RTC.Tool.RGBtoEscape(RTC.DB.ColorInfo) .. L["TxtGreed"] .. "\n" .. rtxt
     else
-        for i, roll in pairs(RTC.rollArray) do
+        for _, roll in pairs(RTC.rollArray) do
             rollText = RTC.FormatRollText(roll, party, partyName) .. rollText
         end
     end
@@ -1169,7 +1169,7 @@ function RTC.UpdateRollList()
     local gtxt = RTC.Tool.RGBtoEscape(RTC.DB.ColorInfo)
     local missClasses = {}
     RTC.allRolled = true
-    for i, p in ipairs(party) do
+    for _, p in ipairs(party) do
         if RTC.rollNames[p.name] == nil or RTC.rollNames[p.name] == 0 then
             local iconClass = RTC.Tool.IconClass[partyName[p.name].class]
             local rank = ""
@@ -1188,7 +1188,7 @@ function RTC.UpdateRollList()
     local ctxt = ""
     if IsInRaid() then
         local isHorde = (UnitFactionGroup("player")) == "Horde"
-        for i, class in pairs(RTC.Tool.Classes) do
+        for _, class in pairs(RTC.Tool.Classes) do
             --for class,count in pairs(missClasses) do
             if not (isHorde and class == "PALADIN") and not (not isHorde and class == "SHAMAN") then
                 ctxt = ctxt .. RTC.Tool.IconClass[class] .. (missClasses[class] or 0) .. " "
@@ -1242,9 +1242,9 @@ end
 function RTC.NotRolled()
     if IsInGroup() or IsInRaid() then
 
-        local party, partyName = RTC.GetPlayerList()
+        local party = RTC.GetPlayerList()
         local names = ""
-        for i, p in ipairs(party) do
+        for _, p in ipairs(party) do
             if RTC.rollNames[p.name] == nil or RTC.rollNames[p.name] == 0 then
                 names = names .. ", " .. p.name
             end
@@ -1293,7 +1293,7 @@ function RTC.RollAnnounce(numbers)
     table.sort(RTC.rollArray, RTC.SortRollsRev)
 
     if RTC.DB.NeedAndGreed then
-        for i, roll in pairs(RTC.rollArray) do
+        for _, roll in pairs(RTC.rollArray) do
             if (RTC.DB.AnnounceIgnoreDouble == false or roll.Count == 1) and
                     (roll.Roll > 0 and roll.Low == 1 and roll.High == 100) then
                 if roll.Roll == max then
@@ -1312,7 +1312,7 @@ function RTC.RollAnnounce(numbers)
         end
 
         if winNum == 0 then
-            for i, roll in pairs(RTC.rollArray) do
+            for _, roll in pairs(RTC.rollArray) do
                 if (RTC.DB.AnnounceIgnoreDouble == false or roll.Count == 1) and
                         (roll.Roll == 0 or (roll.Low == 1 and roll.High == 50)) then
 
@@ -1336,7 +1336,7 @@ function RTC.RollAnnounce(numbers)
         end
 
     else
-        for i, roll in pairs(RTC.rollArray) do
+        for _, roll in pairs(RTC.rollArray) do
 
             if (RTC.DB.AnnounceIgnoreDouble == false or roll.Count == 1) and
                     (RTC.DB.AnnounceRejectOutBounds == false or (roll.Low == 1 and roll.High == 100)) then
@@ -1370,7 +1370,7 @@ function RTC.RollAnnounce(numbers)
     end
 
     RTC.AddChat(msg)
-    for i, out in ipairs(list) do
+    for _, out in ipairs(list) do
         RTC.AddChat(out)
     end
 
@@ -1517,7 +1517,7 @@ function RTC.LootListInit()
     RollTrackerClassicZLootFrame_MessageFrame:SetMaxLines(RTC.DB.LootTracker.NbLoots)
 
     if RTC.DB.LootTracker.Enable then
-        for i, loot in ipairs(RollTrackerClassicZLoot) do
+        for _, loot in ipairs(RollTrackerClassicZLoot) do
             RTC.LootList_AddItem(loot)
         end
     else
@@ -1592,14 +1592,14 @@ function RTC.CSVListInit()
     RollTrackerClassicCSVFrame_MessageFrame:Clear()
     RollTrackerClassicCSVFrame_MessageFrame:SetMaxLines(RTC.DB.LootTracker.NbLoots)
 
-    for i, loot in ipairs(RollTrackerClassicZLoot) do
+    for _, loot in ipairs(RollTrackerClassicZLoot) do
         RTC.CSVList_AddItem(loot)
     end
 end
 
 function RTC.BtnExport()
     local Text = ""
-    for i, loot in ipairs(RollTrackerClassicZLoot) do
+    for _, loot in ipairs(RollTrackerClassicZLoot) do
         Text = Text .. RTC.CSVList_AddItem(loot, true) .. "\n"
     end
     RTC.Tool.CopyPast(Text)
