@@ -7,7 +7,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: [2.7]
+        python-version: [3.7]
 
     steps:
     - uses: actions/checkout@v2
@@ -15,12 +15,32 @@ jobs:
       uses: actions/setup-python@v2
       with:
         python-version: ${{ matrix.python-version }}
-    - name: Install dependencies
+    - name: Lookup Python Cache
+      id: python-cache
+      uses: actions/cache@v2
+      with:
+        path: ~/.cache/pip
+        key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
+        restore-keys: |
+          ${{ runner.os }}-pip-
+    - name: Update Python Tools
+      if: steps.python-cache.outputs.cache-hit != 'true'
       run: |
         python -m pip install --upgrade pip
         pip install hererocks
+    - name: Lookup LUA Cache
+      id: lua-cache
+      uses: actions/cache@v2
+      with:
+        path: ~/.cache/lua
+        key: ${{ runner.os }}-lua-${{ hashFiles('**/rock_manifest') }}
+        restore-keys: |
+          ${{ runner.os }}-lua-
+    - name: Install Python Dependencies
+      if: steps.lua-cache.outputs.cache-hit != 'true'
+      run: |
         hererocks lua_install -r^ --lua=5.1
-        source ./lua_install/bin/activate
+        source ~/.cache/lua/bin/activate
         luarocks install argparse
         luarocks install luacheck
         luarocks install mockagne 1.0
@@ -30,9 +50,8 @@ jobs:
         luarocks install luacov
         luarocks install luacov-coveralls
         luarocks install luadoc
-        luarocks list
     - name: Test with pytest
       run: |
-        source ./lua_install/bin/activate
+        source ~/.cache/lua/bin/activate
         luacheck --no-max-line-length --no-global --no-unused --allow-defined --std max+busted Localization.lua
         luacheck --no-max-line-length --no-global --no-unused --allow-defined --std max+busted RollTrackerClassic.lua
