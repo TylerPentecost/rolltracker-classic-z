@@ -1,6 +1,6 @@
-name: Build and Test Addon
+name: Test Addon
 
-on: [push, pull_request]
+on: push
 
 jobs:
   lint:
