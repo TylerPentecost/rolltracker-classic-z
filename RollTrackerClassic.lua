@@ -967,7 +967,7 @@ end
 
 local function Event_CHAT_MSG_LOOT(arg1)
     -- %s receives loot : %s|Hitem :%d :%d :%d :%d|h[%s]|h%s.
-    name, item = string.match(arg1, RTC.PatternLoot)
+    local name, item = string.match(arg1, RTC.PatternLoot)
     if not name or not item then
         name = GetUnitName("player")
         item = string.match(arg1, RTC.PatternLootOwn)
@@ -1005,9 +1005,10 @@ local function Event_Generic_CHAT_MSG(msg, name)
     end
 end
 
-function RTC.OnLoad()
+function RTC.OnLoad(self)
     --print("rtc-onload")
-    RollTrackerClassicMainWindow:SetMinResize(194, 170)
+    self:SetBackdrop(BACKDROP_TUTORIAL_16_16)
+    self:SetMinResize(194, 170)
 
     RTC.Tool.RegisterEvent("ADDON_LOADED", Event_ADDON_LOADED)
     RTC.Tool.RegisterEvent("START_LOOT_ROLL", Event_START_LOOT_ROLL)
@@ -1165,43 +1166,30 @@ function RTC.UpdateRollList()
         end
     end
 
-    --if IsInGroup() or IsInRaid() then
-    rollText = rollText .. RTC.Tool.RGBtoEscape(RTC.DB.ColorInfo) .. L["TxtLine"] .. "\n"
-    local gtxt = RTC.Tool.RGBtoEscape(RTC.DB.ColorInfo)
-    local missClasses = {}
-    RTC.allRolled = true
-    for _, p in ipairs(party) do
-        if RTC.rollNames[p.name] == nil or RTC.rollNames[p.name] == 0 then
-            local iconClass = RTC.Tool.IconClass[partyName[p.name].class]
-            local rank = ""
-            if iconClass == nil or RTC.DB.ShowClassIcon == false then
-                iconClass = ""
-            else
-                missClasses[partyName[p.name].class] = missClasses[partyName[p.name].class] and missClasses[partyName[p.name].class] + 1 or 1
-            end
-            if RTC.DB.ShowGuildRank and partyName[p.name] and partyName[p.name].rank then
-                rank = " " .. partyName[p.name].rank
-            end
-            gtxt = gtxt .. "|Hplayer:" .. p.name .. "|h" .. iconClass .. p.name .. rank .. "|h\n"
-            RTC.allRolled = false
-        end
-    end
-    local ctxt = ""
-    if IsInRaid() then
-        local isHorde = (UnitFactionGroup("player")) == "Horde"
-        for _, class in pairs(RTC.Tool.Classes) do
-            --for class,count in pairs(missClasses) do
-            if not (isHorde and class == "PALADIN") and not (not isHorde and class == "SHAMAN") then
-                ctxt = ctxt .. RTC.Tool.IconClass[class] .. (missClasses[class] or 0) .. " "
+    if IsInGroup() then
+        rollText = rollText .. RTC.Tool.RGBtoEscape(RTC.DB.ColorInfo) .. L["TxtLine"] .. "\n"
+        local gtxt = RTC.Tool.RGBtoEscape(RTC.DB.ColorInfo)
+        local missClasses = {}
+        RTC.allRolled = true
+        for _, p in ipairs(party) do
+            if RTC.rollNames[p.name] == nil or RTC.rollNames[p.name] == 0 then
+                local iconClass = RTC.Tool.IconClass[partyName[p.name].class]
+                local rank = ""
+                if iconClass == nil or RTC.DB.ShowClassIcon == false then
+                    iconClass = ""
+                else
+                    missClasses[partyName[p.name].class] = missClasses[partyName[p.name].class] and missClasses[partyName[p.name].class] + 1 or 1
+                end
+                if RTC.DB.ShowGuildRank and partyName[p.name] and partyName[p.name].rank then
+                    rank = " " .. partyName[p.name].rank
+                end
+                gtxt = gtxt .. "|Hplayer:" .. p.name .. "|h" .. iconClass .. p.name .. rank .. "|h\n"
+                RTC.allRolled = false
             end
         end
-        if ctxt ~= "" then ctxt = ctxt .. "\n" .. L["TxtLine"] .. "\n" end
+
+        rollText = rollText ..  gtxt
     end
-
-    rollText = rollText .. ctxt .. gtxt
-
-
-    --end
 
     RollTrackerRollText:SetText(rollText)
     RollTrackerClassicFrameStatusText:SetText(string.format(L["MsgNbRolls"], table.getn(RTC.rollArray)))

@@ -54,7 +54,7 @@ for eng,name in pairs(LOCALIZED_CLASS_NAMES_FEMALE) do
 end
 
 local _tableAccents = {
-    ["À"] = "A", ["Á"] = "A", ["Â"] = "A", ["Ã"] = "A", ["Ä"] = "Ae", ["Å"] = "A",
+  ["À"] = "A", ["Á"] = "A", ["Â"] = "A", ["Ã"] = "A", ["Ä"] = "Ae", ["Å"] = "A",
 	["Æ"] = "AE", ["Ç"] = "C", ["È"] = "E", ["É"] = "E", ["Ê"] = "E", ["Ë"] = "E", 
 	["Ì"] = "I", ["Í"] = "I", ["Î"] = "I", ["Ï"] = "I", ["Ð"] = "D", ["Ñ"] = "N", 
 	["Ò"] = "O", ["Ó"] = "O", ["Ô"] = "O", ["Õ"] = "O", ["Ö"] = "Oe", ["Ø"] = "O", 
@@ -385,7 +385,7 @@ function Tool.EnableSize(frame,border,OnStart,OnStop)
 	frame:EnableMouse(true)
 	frame:SetResizable(true)	
 	
-	path= "Interface\\AddOns\\".. TOCNAME .. "\\Resize\\"
+	local path= "Interface\\AddOns\\".. TOCNAME .. "\\Resize\\"
 	
 	CreateSizeBorder(frame,"BOTTOM","BOTTOMLEFT", border, border, "BOTTOMRIGHT", -border, 0,"Interface\\CURSOR\\UI-Cursor-SizeLeft",45,OnStart,OnStop)
 	CreateSizeBorder(frame,"TOP","TOPLEFT", border, 0, "TOPRIGHT", -border, -border,"Interface\\CURSOR\\UI-Cursor-SizeLeft",45,OnStart,OnStop)
@@ -728,37 +728,28 @@ end
 local CopyPastFrame
 local CopyPastSavedText
 local CopyPastText
+local CopyPastTitle
+
 local function CreateCopyPast()
-	local frame = CreateFrame("Frame", nil, UIParent)
+	local frame = CreateFrame("Frame", nil, UIParent, BackdropTemplateMixin and "BackdropTemplate" or nil)
     frame:SetFrameStrata("DIALOG")
-	frame:SetBackdrop({
-        bgFile = "Interface/DialogFrame/UI-DialogBox-Background",
-        tile = true,
-        edgeFile = "Interface/DialogFrame/UI-DialogBox-Border",
-        edgeSize = 32,
-        insets = {
-            left = 11,
-            right = 12,
-            top = 12,
-            bottom = 11,
-        },
-    })
-	frame:SetSize(700, 450)
-	frame:SetPoint("CENTER")
-	frame:EnableMouse(true)
+	  frame:SetBackdrop(BACKDROP_DIALOG_32_32)
+		frame:SetSize(700, 450)
+		frame:SetPoint("CENTER")
+		frame:EnableMouse(true)
     frame:EnableKeyboard(true)
-	frame:SetMovable(true)
-	frame:SetResizable(true)
-	frame:SetMinResize(200,200)
-	frame:RegisterForDrag("LeftButton")
-	frame:SetScript("OnDragStart",function()
+		frame:SetMovable(true)
+		frame:SetResizable(true)
+		frame:SetMinResize(200,200)
+		frame:RegisterForDrag("LeftButton")
+		frame:SetScript("OnDragStart",function()
 			CopyPastFrame:StartMoving()
 		end)
-	frame:SetScript("OnDragStop",function()
+		frame:SetScript("OnDragStop",function()
 			CopyPastFrame:StopMovingOrSizing();
 			CopyPastText:SetSize(CopyPastText:GetParent(scrollFrame):GetWidth(),10)
 		end)
-	frame:SetScript("OnSizeChanged",function()
+		frame:SetScript("OnSizeChanged",function()
 			if CopyPastText then
 				CopyPastText:SetSize(CopyPastText:GetParent(scrollFrame):GetWidth(),10)
 			end
@@ -772,45 +763,48 @@ local function CreateCopyPast()
 	
 	local button =CreateFrame("Button", nil, frame, "UIPanelButtonTemplate")
 	button:SetWidth(128)
-    button:SetPoint("BOTTOM", 0, 16)
-    button:SetText("OK")
+  button:SetPoint("BOTTOM", 0, 16)
+  button:SetText("OK")
 	button:SetScript("OnClick", function()
-        CopyPastFrame:Hide()
-    end)
+      CopyPastFrame:Hide()
+  end)
 	
 
 	
 	local scrollFrame = CreateFrame("ScrollFrame", nil, frame, "UIPanelScrollFrameTemplate")
-    scrollFrame:SetSize(10, 10)
+  scrollFrame:SetSize(10, 10)
 	scrollFrame:ClearAllPoints()
 	scrollFrame:SetPoint("TOPLEFT",frame,"TOPLEFT", 20, -20)
 	scrollFrame:SetPoint("RIGHT", -40, 0)
-	scrollFrame:SetPoint("BOTTOM",button,"TOP",0,10)
-    
-    scrollFrame:Show()
+	scrollFrame:SetPoint("BOTTOM",button,"TOP",0,10)  
+  scrollFrame:Show()
 	
 	local editBox = CreateFrame("EditBox", nil, scrollFrame)
-    editBox:SetMaxLetters(999999)
+  editBox:SetMaxLetters(999999)
 	editBox:SetSize(editBox:GetParent(scrollFrame):GetWidth(),10)
 	editBox:ClearAllPoints()
 	--editBox:SetPoint("TOPLEFT",scrollFrame,"TOPLEFT")
 	editBox:SetPoint("RIGHT",scrollFrame,"RIGHT")
     
-    editBox:SetFont(ChatFontNormal:GetFont())
-    editBox:SetAutoFocus(true)
-    editBox:SetMultiLine(true)
-    editBox:Show()
-    editBox:SetScript("OnEscapePressed", function(self)
-        CopyPastFrame:Hide()
-    end)
+  editBox:SetFont(ChatFontNormal:GetFont())
+  editBox:SetAutoFocus(true)
+  editBox:SetMultiLine(true)
+  editBox:Show()
+  editBox:SetScript("OnEscapePressed", function(self)
+      CopyPastFrame:Hide()
+  end)
 	editBox:SetScript("OnEnterPressed", function(self)
         CopyPastFrame:Hide()
     end)
 	editBox:SetScript("OnTextChanged", function(self)
-        CopyPastText:SetText(CopyPastSavedText)
+    CopyPastText:SetText(CopyPastSavedText)
 		CopyPastText:HighlightText()	
-    end)
+  end)
 	
+	local title = frame:CreateFontString(nil, "OVERLAY", "GameFontNormalLarge")
+	title:SetSize(0,12)
+	title:SetPoint("TOP", -5, -13)
+	title:SetText(" ")
 
 	scrollFrame:SetScrollChild(editBox)
 	
