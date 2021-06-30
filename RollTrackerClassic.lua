@@ -20,7 +20,8 @@ RTC.TxtEscapeIcon = "|T%s:0:0:0:0:64:64:4:60:4:60|t"
 RTC.MSGPREFIX = "RTC: "
 RTC.MSGPREFIX_START = "RTC.StartRoll: "
 RTC.LOOTTRACKER_MAXLINES = 1000
-
+RTC.CLASSIC_ERA = WOW_PROJECT_ID == WOW_PROJECT_CLASSIC
+RTC.BCC = WOW_PROJECT_ID == WOW_PROJECT_BURNING_CRUSADE_CLASSIC
 
 function RTC.GetPlayerList(unsort)
     local count, start
@@ -1005,8 +1006,21 @@ local function Event_Generic_CHAT_MSG(msg, name)
     end
 end
 
+
+local BACKDROP_TUTORIAL_16_16 = BACKDROP_TUTORIAL_16_16 or {
+    bgFile = "Interface\\TutorialFrame\\TutorialFrameBackground",
+    edgeFile = "Interface\\Tooltips\\UI-Tooltip-Border",
+    tile = true,
+    tileEdge = true,
+    tileSize = 16,
+    edgeSize = 16,
+    insets = { left = 3, right = 5, top = 3, bottom = 5 },
+}
 function RTC.OnLoad(self)
     --print("rtc-onload")
+    if Mixin and BackdropTemplateMixin then
+        Mixin(self,BackdropTemplateMixin)
+    end
     self:SetBackdrop(BACKDROP_TUTORIAL_16_16)
     self:SetMinResize(194, 170)
 
@@ -1187,8 +1201,19 @@ function RTC.UpdateRollList()
                 RTC.allRolled = false
             end
         end
+        local ctxt = ""
+        if RTC.CLASSIC_ERA then
+            local isHorde = (UnitFactionGroup("player")) == "Horde"
+            for _, class in pairs(RTC.Tool.Classes) do
+                --for class,count in pairs(missClasses) do
+                if not (isHorde and class == "PALADIN") and not (not isHorde and class == "SHAMAN") then
+                    ctxt = ctxt .. RTC.Tool.IconClass[class] .. (missClasses[class] or 0) .. " "
+                end
+            end
+            if ctxt ~= "" then ctxt = ctxt .. "\n" .. L["TxtLine"] .. "\n" end
+        end
 
-        rollText = rollText ..  gtxt
+        rollText = rollText .. ctxt .. gtxt
     end
 
     RollTrackerRollText:SetText(rollText)
