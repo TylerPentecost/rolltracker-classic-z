@@ -948,8 +948,10 @@ local function Event_START_LOOT_ROLL(arg1, _, arg3)
     if RTC.DB.AutoLootRolls then
         RTC.LootHistoryShow(arg1)
     end
-    RTC.LootHistoryHandle[arg3] = true
-    RTC.LootHistoryCountHandle = RTC.LootHistoryCountHandle + 1
+    if arg3 then -- loothandle CAN be nil
+        RTC.LootHistoryHandle[arg3] = true
+        RTC.LootHistoryCountHandle = RTC.LootHistoryCountHandle + 1
+    end
     RTC.LootHistoryCloseTimer = 0
 end
 
