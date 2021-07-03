@@ -1,0 +1,5 @@
+package-as: RollTrackerClassicZ
+enable-nolib-creation: no
+
+ignore:
+  - .pkgmeta
