@@ -18,19 +18,6 @@
 			<Anchor point="CENTER"/>
 			<Offset><AbsDimension x="300" y="0"/></Offset>
 		</Anchors>
-		<Backdrop name="$parentBackdrop" bgFile="Interface\TutorialFrame\TutorialFrameBackground"
-		edgeFile="Interface\DialogFrame\UI-DialogBox-Border" tile="true">
-			<EdgeSize>
-				<AbsValue val="16"/>
-			</EdgeSize>
-			<TileSize>
-				<AbsValue val="64"/>
-			</TileSize>
-			<BackgroundInsets>
-				<AbsInset left="5" right="5" top="5" bottom="5"/>
-			</BackgroundInsets>
-		</Backdrop>	
-		
 		<Layers>
 			<Layer level="BACKGROUND">
 				<FontString name="$parentTitle" inherits="GameFontNormal" text="RollTracker Classic Z" justifyH="LEFT" justifyV="TOP">
@@ -422,8 +409,8 @@
 		</Frames>
 		
 		<Scripts>
-			<OnLoad>
-				RollTrackerClassic_Addon.OnLoad()
+			<OnLoad inherit="prepend">
+				RollTrackerClassic_Addon.OnLoad(self)
 			</OnLoad>
 			<OnEvent>
 				RollTrackerClassic_Addon.OnEvent(event, ...);
