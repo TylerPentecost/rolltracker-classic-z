@@ -513,7 +513,8 @@ function RTC.OptionsInit()
     RTC.Options.AddCategory(L["HeaderItemType"])
     RTC.Options.Indent()
     RTC.Options.AddText(L["TxtItemType"])
-    for i = 0, NUM_LE_ITEM_CLASSS - 1 do
+    local NumberOfItemClasses = _G.NUM_LE_ITEM_CLASSS or 19
+    for i = 0, NumberOfItemClasses - 1 do
         local txt = GetItemClassInfo(i)
         if txt ~= nil and string.find(txt, "OBSOLETE") == nil then
             RTC.Options.AddCheckBox(RTC.DB.LootTracker.ItemType, i, false, txt)
