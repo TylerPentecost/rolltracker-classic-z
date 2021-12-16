@@ -883,8 +883,6 @@ function RTC.Init()
     initHyperlink(RollTrackerRollText)
     initHyperlink(RollTrackerClassicZLootFrame_MessageFrame)
     RTC.OptionsUpdate()
-
-    print("|cFFFF1C1C Loaded: " .. GetAddOnMetadata(TOCNAME, "Title") .. " " .. GetAddOnMetadata(TOCNAME, "Version") .. " by " .. GetAddOnMetadata(TOCNAME, "Author"))
 end
 
 local lastCountDown
