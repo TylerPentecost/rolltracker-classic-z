@@ -73,20 +73,6 @@ function RTC.GetPlayerList(unsort)
         end
     end
 
-    --[[
-    if isDebug then
-        for i=1,39 do
-            local name="Very Long Dummy Charakter Name"..i
-            local entry={
-                ["name"]=name,
-                ["class"]="PRIEST",
-                }
-            tinsert(ret,entry)
-            retName[name]=entry
-        end
-    end
-    --]]
-
     if unsort then
         sort(ret, function(a, b) return (a.class < b.class or (a.class == b.class and a.name < b.name)) end)
     end
