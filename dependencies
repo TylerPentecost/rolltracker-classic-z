@@ -1,9 +1,0 @@
-argparse
-luacheck
-mockagne 1.0
-luaunit
-luabitop
-busted
-luacov
-luacov-coveralls
-luadoc

@@ -17,8 +17,8 @@ function RTC.GetLocale()
         ["MsgStart"] = "New roll starting now! Type '/rnd' or '%s'",
         ["MsgStartGreenAndNeed"] = "New roll starting now! Type '/rnd' for need, '/rnd 1-50' for greed or '%s'",
         ["MsgNextItem"] = "Next item: %s",
-        ["MsgTooltip"] = "|cffff4040Left click|r to open RTC |n|cffff4040Shift+Left click|r to open"
-                .. " 'Loot Rolls'|n|cffff4040Right click|r to open options",
+        ["MsgTooltip"] = "|cffff4040Left click|r to open RTC |n|cffff4040Shift+Left click|r to open" ..
+            " 'Loot Rolls'|n|cffff4040Right click|r to open options",
         ["MsgBar"] = "==============================",
         ["MsgLocalRestart"] = "The setting is not transferred until after a restart (/reload)",
         ["MsgNbLoots"] = "%d stored loot(s).",
@@ -137,22 +137,16 @@ function RTC.GetLocale()
         ["SlashClearNotes"] = "Clear all notes",
         ["AboutInfo"] = "Have you ever tried to roll the 'Onyxia Hide Backpack' in a raid? RTC collects all roll results and sorts them. Ever thought about whether you wanted something for your second-equip, but didn't know if somebody needed it? RTC can automatically open the Blizzard 'Loot rolls' window, where you can see immediately who needs or has greed.|nIn raid ever lost the overview, who got what? Again, RTC can help you. On request, it records all items, including a variable export function.",
         ["AboutSlashCommand"] = "<value> can be true, 1, enable, false, 0, disable. If <value> is omitted, the current status switches.",
-        ["AboutUsage"] = "RTC will automatically open when someone rolls the dice. Double rolls or rolls outside the default range are ignored on request.|nBy default, the automatic opening of 'Loot Rolls' is disabled. Likewise, the 'Loot Tracker' must be turned on manually.",
+        ["AboutUsage"] = "RTC will automatically open when someone rolls the dice. Double rolls or rolls outside the default range are ignored on request.|nBy default, the automatic opening of 'Loot Rolls' is disabled. Likewise, the 'Loot Tracker' must be turned on manually."
     }
 
     RTC.PassTags[DefaultEnGB.pass] = true
 
     local L = {}
     setmetatable(DefaultEnGB,
-        {
-            __index = function(_, k)
-                return "[" .. k .. "]"
-            end
-        })
-    setmetatable(L,
-        {
-            __index = DefaultEnGB
-        })
-    L["AboutCredits"] = "RollTracker Classic is an updated version of 'RollTracker Lite', originally by Jerry Chong - zanglang@gmail.com."
+                 {__index = function(_, k) return "[" .. k .. "]" end})
+    setmetatable(L, {__index = DefaultEnGB})
+    L["AboutCredits"] =
+        "RollTracker Classic is an updated version of 'RollTracker Lite', originally by Jerry Chong - zanglang@gmail.com."
     return L
 end
