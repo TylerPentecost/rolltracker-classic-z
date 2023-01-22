@@ -335,7 +335,7 @@ local SizingEnter=function(self)
 	if not (GetCursorInfo()) then
 		ResizeCursor:Show()
 		ResizeCursor.Texture:SetTexture(self.GPI_Cursor)
-		ResizeCursor.Texture:SetRotation(math.rad(self.GPI_Rotation),0.5,0.5)
+		ResizeCursor.Texture:SetRotation(math.rad(self.GPI_Rotation),{x=0.5,y=0.5})
 	end
 end
 
@@ -749,7 +749,11 @@ local function CreateCopyPast()
 	frame:EnableKeyboard(true)
 	frame:SetMovable(true)
 	frame:SetResizable(true)
-	frame:SetMinResize(200,200)
+	if frame.SetResizeBounds then
+		frame:SetResizeBounds(200,200)
+	else
+		frame:SetMinResize(200,200)
+	end
 	frame:RegisterForDrag("LeftButton")
 	frame:SetScript("OnDragStart",function()
 		CopyPastFrame:StartMoving()

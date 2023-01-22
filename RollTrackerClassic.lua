@@ -973,7 +973,11 @@ function RTC.OnLoad(self)
         Mixin(self, BackdropTemplateMixin)
     end
     self:SetBackdrop(BACKDROP_TUTORIAL_16_16)
-    self:SetMinResize(194, 170)
+    if self.SetResizeBounds then
+        self:SetResizeBounds(194, 170)
+    else
+        self:SetMinResize(194, 170)
+    end
 
     RTC.Tool.RegisterEvent("ADDON_LOADED", Event_ADDON_LOADED)
     RTC.Tool.RegisterEvent("START_LOOT_ROLL", Event_START_LOOT_ROLL)
