@@ -1,7 +1,7 @@
 ## Interface: 30401
 ## Title: RollTracker Classic Z
 ## Notes: Keeps tracks of /rolls, loot and more
-## Version: 1.1.10
+## Version: 1.1.11-alpha1
 ## Author: GPI / Erytheia-Razorfen / Zolerii / Roadblock
 ## DefaultState: enabled
 ## SavedVariables: RollTrackerClassicZDB,RollTrackerClassicZLoot
