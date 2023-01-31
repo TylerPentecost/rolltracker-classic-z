@@ -48,9 +48,7 @@ function RTC.GetPlayerList(unsort)
 
         local rank = ""
         if IsInGuild() and UnitIsInMyGuild(id) then
-            rank = "<" ..
-                       GuildControlGetRankName(
-                           C_GuildInfo.GetGuildRankOrder(UnitGUID(id))) .. ">"
+            rank = "<" .. GuildControlGetRankName(C_GuildInfo.GetGuildRankOrder(UnitGUID(id))) .. ">"
         else
             guildName, guildRankName = GetGuildInfo(id)
             if guildName and guildRankName then
@@ -83,8 +81,8 @@ end
 function RTC.PopupMinimap(frame)
     if not RTC.PopupDynamic:Wipe(frame:GetName()) then return end
     RTC.PopupDynamic:AddItem(L["BtnRoll"], false, RTC.BtnRoll)
-    if RTC.DB.NeedAndGreed then
-        RTC.PopupDynamic:AddItem(L["BtnGreed"], false, RTC.BtnGreed)
+    if RTC.DB.MainAndOffSpecMode then
+        RTC.PopupDynamic:AddItem(L["BtnOffSpec"], false, RTC.BtnOffSpec)
     end
     RTC.PopupDynamic:AddItem(L["BtnPass"], false, RTC.BtnPass)
     RTC.PopupDynamic:AddItem("", true)
@@ -161,8 +159,7 @@ end
 function RTC.LootHistoryClear()
     if RTC.LootHistroyFrameHooked == nil then
         RTC.LootHistroyFrameHooked = true
-        hooksecurefunc("LootHistoryFrame_FullUpdate",
-                       MyLootHistoryFrame_FullUpdate)
+        hooksecurefunc("LootHistoryFrame_FullUpdate", MyLootHistoryFrame_FullUpdate)
     end
 
     local numItems = C_LootHistory.GetNumItems()
@@ -236,14 +233,14 @@ end
 
 function RTC.ResizeButtons()
     local w = RollTrackerClassicFrameHelperButton:GetWidth()
-    if RTC.DB.NeedAndGreed then
+    if RTC.DB.MainAndOffSpecMode then
         RollTrackerClassicFrameRollButton:SetWidth(w / 3)
         RollTrackerClassicFramePassButton:SetWidth(w / 3)
-        RollTrackerClassicFrameGreedButton:Show()
+        RollTrackerClassicFrameOffSpecButton:Show()
     else
         RollTrackerClassicFrameRollButton:SetWidth(w / 2)
         RollTrackerClassicFramePassButton:SetWidth(w / 2)
-        RollTrackerClassicFrameGreedButton:Hide()
+        RollTrackerClassicFrameOffSpecButton:Hide()
     end
 
     if RTC.DB.ShowNotRolled then
@@ -264,7 +261,9 @@ end
 
 function RTC.BtnRoll() RandomRoll(1, 100) end
 
-function RTC.BtnGreed() RandomRoll(1, 50) end
+function RTC.BtnOffSpec()
+    RandomRoll(1, 99)
+end
 
 function RTC.BtnPass() RTC.AddChat(L.pass) end
 
@@ -410,7 +409,7 @@ function RTC.OptionsInit()
     RTCO_CheckBox("PromoteRolls", false)
     RTCO_CheckBox("AutoCountdownWithItem", false)
     RTC.Options.AddSpace()
-    RTCO_CheckBox("NeedAndGreed", false)
+    RTCO_CheckBox("MainAndOffSpecMode", false)
     RTCO_CheckBox("ShowNotRolled", true)
     RTC.Options.AddSpace()
     RTCO_CheckBox("ClearOnStart", false)
@@ -666,39 +665,38 @@ local function initHyperlink(frame)
     if StaticPopupDialogs["RollTrackerClassic_AddNote"] == nil then
         GameTooltip:HookScript("OnTooltipSetUnit", hooked_createTooltip)
 
-        StaticPopupDialogs["RollTrackerClassic_AddNote"] =
-            {
-                text = L.MsgAddNote,
-                button1 = ACCEPT,
-                button2 = CANCEL,
-                hasEditBox = 1,
-                maxLetters = 48,
-                countInvisibleLetters = true,
-                editBoxWidth = 350,
-                OnAccept = function(self)
-                    RTC.Notes[EditEntry] = self.editBox:GetText()
-                end,
-                OnShow = function(self)
-                    self.editBox:SetText(RTC.Notes[EditEntry] or "");
-                    self.editBox:SetFocus();
-                end,
-                OnHide = function(self)
-                    ChatEdit_FocusActiveWindow();
-                    self.editBox:SetText("");
-                end,
-                EditBoxOnEnterPressed = function(self)
-                    local parent = self:GetParent();
-                    RTC.Notes[EditEntry] = parent.editBox:GetText()
-                    parent:Hide();
-                end,
-                EditBoxOnEscapePressed = function(self)
-                    self:GetParent():Hide();
-                end,
-                timeout = 0,
-                exclusive = 1,
-                whileDead = 1,
-                hideOnEscape = 1
-            }
+        StaticPopupDialogs["RollTrackerClassic_AddNote"] = {
+            text = L.MsgAddNote,
+            button1 = ACCEPT,
+            button2 = CANCEL,
+            hasEditBox = 1,
+            maxLetters = 48,
+            countInvisibleLetters = true,
+            editBoxWidth = 350,
+            OnAccept = function(self)
+                RTC.Notes[EditEntry] = self.editBox:GetText()
+            end,
+            OnShow = function(self)
+                self.editBox:SetText(RTC.Notes[EditEntry] or "");
+                self.editBox:SetFocus();
+            end,
+            OnHide = function(self)
+                ChatEdit_FocusActiveWindow();
+                self.editBox:SetText("");
+            end,
+            EditBoxOnEnterPressed = function(self)
+                local parent = self:GetParent();
+                RTC.Notes[EditEntry] = parent.editBox:GetText()
+                parent:Hide();
+            end,
+            EditBoxOnEscapePressed = function(self)
+                self:GetParent():Hide();
+            end,
+            timeout = 0,
+            exclusive = 1,
+            whileDead = 1,
+            hideOnEscape = 1
+        }
     end
 end
 
@@ -745,8 +743,7 @@ function RTC.Init()
         RTC.SaveAnchors()
     else
         RollTrackerClassicMainWindow:ClearAllPoints()
-        RollTrackerClassicMainWindow:SetPoint("TOPLEFT", UIParent, "BOTTOMLEFT",
-                                              x, y)
+        RollTrackerClassicMainWindow:SetPoint("TOPLEFT", UIParent, "BOTTOMLEFT", x, y)
         RollTrackerClassicMainWindow:SetWidth(w)
         RollTrackerClassicMainWindow:SetHeight(h)
     end
@@ -759,10 +756,10 @@ function RTC.Init()
     RollTrackerClassicFrameRollButton:SetText(string.format(
                                                   RTC.TxtEscapePicture,
                                                   RTC.IconDice) .. L["BtnRoll"])
-    RollTrackerClassicFrameGreedButton:SetText(string.format(
+    RollTrackerClassicFrameOffSpecButton:SetText(string.format(
                                                    RTC.TxtEscapePicture,
                                                    RTC.IconGreed) ..
-                                                   L["BtnGreed"])
+                                                   L["BtnOffSpec"])
     RollTrackerClassicFramePassButton:SetText(string.format(
                                                   RTC.TxtEscapePicture,
                                                   RTC.IconPass) .. L["BtnPass"])
@@ -1008,8 +1005,8 @@ function RTC.AddRoll(name, roll, low, high)
     local ok = false
     if name == "*" then
         for i = 1, 5 do
-            RTC.AddRoll("rndneed" .. i, tostring(random(1, 100)), "1", "100")
-            RTC.AddRoll("rndgreed" .. i, tostring(random(1, 50)), "1", "50")
+            RTC.AddRoll("rndmainSpec" .. i, tostring(random(1, 100)), "1", "100")
+            RTC.AddRoll("rndoffSpec" .. i, tostring(random(1, 50)), "1", "50")
         end
         return
     end
@@ -1027,7 +1024,7 @@ function RTC.AddRoll(name, roll, low, high)
     if not RTC.AllowInInstance() then return end
 
     -- check for rerolls. >1 if rolled before
-    if RTC.DB.NeedAndGreed then
+    if RTC.DB.MainAndOffSpecMode then
         if (RTC.DB.IgnoreDouble == false or RTC.rollNames[name] == nil or
             RTC.rollNames[name] == 0) and
             ((low == "1" and high == "50") or (low == "1" and high == "100")) then
@@ -1120,23 +1117,21 @@ function RTC.UpdateRollList()
     table.sort(RTC.rollArray, RTC.SortRolls)
 
     -- format and print rolls, check for ties
-    if RTC.DB.NeedAndGreed then
+    if RTC.DB.MainAndOffSpecMode then
         local rtxt = ""
         for _, roll in pairs(RTC.rollArray) do
             if roll.Roll > 0 and roll.High == 100 then
                 rtxt = RTC.FormatRollText(roll, party, partyName) .. rtxt
             end
         end
-        rollText = RTC.Tool.RGBtoEscape(RTC.DB.ColorInfo) .. L["TxtNeed"] ..
-                       "\n" .. rtxt
+        rollText = RTC.Tool.RGBtoEscape(RTC.DB.ColorInfo) .. L["TxTMainSpec"] .. "\n" .. rtxt
         rtxt = ""
         for _, roll in pairs(RTC.rollArray) do
             if roll.Roll == 0 or roll.High == 50 then
                 rtxt = RTC.FormatRollText(roll, party, partyName) .. rtxt
             end
         end
-        rollText = rollText .. "\n" .. RTC.Tool.RGBtoEscape(RTC.DB.ColorInfo) ..
-                       L["TxtGreed"] .. "\n" .. rtxt
+        rollText = rollText .. "\n" .. RTC.Tool.RGBtoEscape(RTC.DB.ColorInfo) .. L["TxTOffSpec"] .. "\n" .. rtxt
     else
         for _, roll in pairs(RTC.rollArray) do
             rollText = RTC.FormatRollText(roll, party, partyName) .. rollText
@@ -1256,8 +1251,8 @@ function RTC.StartRoll(...)
     local item = RTC.Tool.Combine({...})
     RTC.ShowWindow(1)
     RTC.ClearRolls()
-    if RTC.DB.NeedAndGreed then
-        msg = L["MsgStartGreenAndNeed"]
+    if RTC.DB.MainAndOffSpecMode then
+        msg = L["MsgStartMainAndOffSpecMode"]
     else
         msg = L["MsgStart"]
     end
@@ -1285,7 +1280,7 @@ function RTC.RollAnnounce(numbers)
 
     table.sort(RTC.rollArray, RTC.SortRollsRev)
 
-    if RTC.DB.NeedAndGreed then
+    if RTC.DB.MainAndOffSpecMode then -- MS/OS roll
         for _, roll in pairs(RTC.rollArray) do
             if (RTC.DB.AnnounceIgnoreDouble == false or roll.Count == 1) and
                 (roll.Roll > 0 and roll.Low == 1 and roll.High == 100) then
@@ -1299,8 +1294,7 @@ function RTC.RollAnnounce(numbers)
                 end
                 if numbers > 0 then
                     numbers = numbers - 1
-                    tinsert(list, roll.Roll .. " " .. roll.Name .. " (" ..
-                                roll.Low .. "-" .. roll.High .. ")")
+                    tinsert(list, roll.Roll .. " " .. roll.Name .. " (" .. roll.Low .. "-" .. roll.High .. ")")
                 end
             end
         end
@@ -1320,17 +1314,15 @@ function RTC.RollAnnounce(numbers)
                     end
                     if numbers > 0 then
                         numbers = numbers - 1
-                        tinsert(list, roll.Roll .. " " .. roll.Name .. " (" ..
-                                    roll.Low .. "-" .. roll.High .. ")")
+                        tinsert(list, roll.Roll .. " " .. roll.Name .. " (" .. roll.Low .. "-" .. roll.High .. ")")
                     end
                 end
             end
-            addPrefix = L["TxtGreed"] .. "! "
+            addPrefix = L["TxTOffSpec"] .. "! "
         else
-            addPrefix = L["TxtNeed"] .. "! "
+            addPrefix = L["TxTMainSpec"] .. "! "
         end
-
-    else
+    else -- regular roll
         for _, roll in pairs(RTC.rollArray) do
 
             if (RTC.DB.AnnounceIgnoreDouble == false or roll.Count == 1) and
