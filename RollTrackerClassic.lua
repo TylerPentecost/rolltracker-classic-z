@@ -1006,7 +1006,7 @@ function RTC.AddRoll(name, roll, low, high)
     if name == "*" then
         for i = 1, 5 do
             RTC.AddRoll("rndmainSpec" .. i, tostring(random(1, 100)), "1", "100")
-            RTC.AddRoll("rndoffSpec" .. i, tostring(random(1, 50)), "1", "50")
+            RTC.AddRoll("rndoffSpec" .. i, tostring(random(1, 99)), "1", "99")
         end
         return
     end
@@ -1027,7 +1027,7 @@ function RTC.AddRoll(name, roll, low, high)
     if RTC.DB.MainAndOffSpecMode then
         if (RTC.DB.IgnoreDouble == false or RTC.rollNames[name] == nil or
             RTC.rollNames[name] == 0) and
-            ((low == "1" and high == "50") or (low == "1" and high == "100")) then
+            ((low == "1" and high == "99") or (low == "1" and high == "100")) then
             ok = true
         end
     else
@@ -1127,7 +1127,7 @@ function RTC.UpdateRollList()
         rollText = RTC.Tool.RGBtoEscape(RTC.DB.ColorInfo) .. L["TxTMainSpec"] .. "\n" .. rtxt
         rtxt = ""
         for _, roll in pairs(RTC.rollArray) do
-            if roll.Roll == 0 or roll.High == 50 then
+            if roll.Roll == 0 or roll.High == 99 then
                 rtxt = RTC.FormatRollText(roll, party, partyName) .. rtxt
             end
         end
@@ -1302,7 +1302,7 @@ function RTC.RollAnnounce(numbers)
         if winNum == 0 then
             for _, roll in pairs(RTC.rollArray) do
                 if (RTC.DB.AnnounceIgnoreDouble == false or roll.Count == 1) and
-                    (roll.Roll == 0 or (roll.Low == 1 and roll.High == 50)) then
+                    (roll.Roll == 0 or (roll.Low == 1 and roll.High == 99)) then
 
                     if roll.Roll == max then
                         winNum = winNum + 1
