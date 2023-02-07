@@ -165,8 +165,7 @@
 						</Scripts>
 					</Button>
 
-
-					<Button name="$parentGreedButton" inherits="RollTrackerClassic_SmallButton" text="greed">
+					<Button name="$parentOffSpecButton" inherits="RollTrackerClassic_SmallButton" text="Off Spec">
 						<!--2-->
 						<Anchors>
 							<Anchor point="BOTTOMLEFT" relativePoint="BOTTOMRIGHT" relativeTo="$parentRollButton" />
@@ -174,7 +173,7 @@
 						</Anchors>
 						<Scripts>
 							<OnClick>
-								RollTrackerClassic_Addon.BtnGreed()						
+								RollTrackerClassic_Addon.BtnOffSpec()
 							</OnClick>
 						</Scripts>
 					</Button>
