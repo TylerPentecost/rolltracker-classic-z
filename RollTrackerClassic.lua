@@ -495,7 +495,7 @@ function RTC.OptionsInit()
     RTC.Options.AddCategory(L["HeaderItemType"])
     RTC.Options.Indent()
     RTC.Options.AddText(L["TxtItemType"])
-    local NumberOfItemClasses = _G.NUM_LE_ITEM_CLASSS or 19
+    local NumberOfItemClasses = 19
     for i = 0, NumberOfItemClasses - 1 do
         local txt = GetItemClassInfo(i)
         if txt ~= nil and string.find(txt, "OBSOLETE") == nil then
@@ -1184,8 +1184,7 @@ function RTC.UpdateRollList()
     end
 
     RollTrackerRollText:SetText(rollText)
-    RollTrackerClassicFrameStatusText:SetText(
-        string.format(L["MsgNbRolls"], table.getn(RTC.rollArray)))
+    RollTrackerClassicFrameStatusText:SetText(string.format(L["MsgNbRolls"], #RTC.rollArray))
 
     if #RTC.rollArray == 0 and #RTC.rollUndoArray > 0 then
         RollTrackerClassicFrameClearButton:SetText(L["BtnUndo"])
