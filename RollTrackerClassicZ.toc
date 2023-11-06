@@ -1,13 +1,5 @@
-## Interface: 30403
-## Title: RollTracker Classic Z
-## Notes: Keeps tracks of /rolls, loot and more
-## Version: 1.2.2
-## Author: GPI / Erytheia-Razorfen / Zolerii / Roadblock
-## DefaultState: enabled
-## SavedVariables: RollTrackerClassicZDB,RollTrackerClassicZLoot
+## Interface: 00000
+## Title: RollTracker Classic Z (Unsupported)
+## Notes: RollTracker Classic Z does not support this game version.
 
-embeds.xml
-
-Localization.lua
-RollTrackerClassic.lua
-RollTrackerClassic.xml
+UnsupportedGameVersion.lua
