@@ -1,6 +1,7 @@
 local TOCNAME,Addon = ...
 Addon.Options=Addon.Options or {}
 local Options=Addon.Options
+local category, layout
 
 local function Options_CheckButtonRightClick(self,button)
 	if button=="RightButton" then
@@ -134,10 +135,12 @@ function Options.AddPanel(Title,noheader,scrollable)
 	else
 		Options.Panel[c].parent = Options.Panel[1].name
 	end
-	
-	InterfaceOptions_AddCategory(Options.Panel[c])
-	Options.CurrentPanel=Options.Panel[c]		
-	
+
+	category, layout = Settings.RegisterCanvasLayoutCategory(Options.Panel[c], Options.Panel[c].name, Options.Panel[c].name)
+	category.ID = Options.Panel[c].name
+	Settings.RegisterAddOnCategory(category)
+	Options.CurrentPanel=Options.Panel[c]
+
 	if scrollable then
 		
 		Options.Panel["scroll"..c]=CreateFrame("ScrollFrame", FrameName.."Scroll", Options.CurrentPanel,"UIPanelScrollFrameTemplate")
