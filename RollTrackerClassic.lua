@@ -289,11 +289,7 @@ end
 function RTC.BtnNotRolled() RTC.NotRolled() end
 
 function RTC.BtnSettings()
-    if RTC.Tool.GetSelectedTab(RollTrackerClassicMainWindow) == 1 then
-        RTC.Options.Open()
-    else
-        RTC.Options.Open(2)
-    end
+    DEFAULT_CHAT_FRAME:AddMessage("Temporarily disabled. Please use main options menu.", RTC.DB.ColorChat.r, RTC.DB.ColorChat.g, RTC.DB.ColorChat.b, RTC.DB.ColorChat.a)
 end
 
 function RTC.BtnLootClear()
