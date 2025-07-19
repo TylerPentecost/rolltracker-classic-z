@@ -23,9 +23,6 @@
 		</Size>
 		<Anchors>
 			<Anchor point="CENTER" />
-			<Offset>
-				<AbsDimension x="300" y="0" />
-			</Offset>
 		</Anchors>
 		<Layers>
 			<Layer level="BACKGROUND">
@@ -336,7 +333,7 @@
 						</Scripts>
 					</Button>
 
-					<ScrollingMessageFrame enableMouseWheel="true" name="$parent_MessageFrame" parentKey="MessageFrame" enableMouseClicks="true">
+					<ScrollingMessageFrame name="$parent_MessageFrame" parentKey="MessageFrame" enableMouseClicks="true">
 						<Anchors>
 							<Anchor point="TOP" />
 							<Anchor point="LEFT" relativePoint="LEFT" relativeTo="$parentClearButton" />
@@ -403,7 +400,7 @@
 							</OnClick>
 						</Scripts>
 					</Button>
-					<ScrollingMessageFrame enableMouseWheel="true" name="$parent_MessageFrame" parentKey="MessageFrame" enableMouseClicks="true">
+					<ScrollingMessageFrame name="$parent_MessageFrame" parentKey="MessageFrame" enableMouseClicks="true">
 						<Anchors>
 							<Anchor point="TOP" />
 							<Anchor point="LEFT" relativePoint="LEFT" relativeTo="$parentExportButton" />
