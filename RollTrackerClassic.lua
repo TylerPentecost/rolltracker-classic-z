@@ -1,5 +1,9 @@
 local TOCNAME, RTC = ...
-local L = setmetatable({}, {__index = function(_, k) return RTC.L[k] end})
+local L = setmetatable({}, {
+    __index = function(_, k)
+        return RTC.L[k]
+    end
+})
 
 RollTrackerClassic_Addon = RTC
 RTC.Version = GetAddOnMetadata(TOCNAME, "Version")
