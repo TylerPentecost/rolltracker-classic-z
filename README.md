@@ -1,5 +1,5 @@
 # RollTracker Classic Z
-The project is an addon for World of Warcraft Classic Era, Cataclysm Classic, and Mists of Pandaria Classic.
+This project is an addon for World of Warcraft Classic Era and Mists of Pandaria Classic.
 It is a continuation of RollTracker Classic, which had been marked as abandoned on CurseForge.
 
 Most of the credit for this addon goes to its original authors, and the original project can be found [here](https://www.curseforge.com/wow/addons/rolltracker-classic-z).
