@@ -1,0 +1,30 @@
+## Interface: 20505
+## Title: RollTracker Classic Z
+## Notes: Keeps tracks of /rolls, loot and more
+## Version: 2.0.0
+## Author: GPI / Erytheia-Razorfen / Zolerii / Roadblock / Dosmod
+## DefaultState: enabled
+## SavedVariables: RollTrackerClassicZDB,RollTrackerClassicZLoot
+
+embeds.xml
+
+# Core
+Core\Constants.lua
+Core\Database.lua
+Locales\Localization.lua
+Core\Core.lua
+
+# Modules
+Modules\Utils.lua
+Modules\LootHistory.lua
+Modules\Countdown.lua
+Modules\Minimap.lua
+Modules\Notes.lua
+Modules\GUI.lua
+Modules\RollTracker.lua
+Modules\LootTracker.lua
+Modules\Options.lua
+Modules\Events.lua
+
+# UI
+RollTrackerClassic.xml
