@@ -8,23 +8,6 @@
 
 embeds.xml
 
-# Core
-Core\Constants.lua
-Core\Database.lua
-Locales\Localization.lua
-Core\Core.lua
-
-# Modules
-Modules\Utils.lua
-Modules\LootHistory.lua
-Modules\Countdown.lua
-Modules\Minimap.lua
-Modules\Notes.lua
-Modules\GUI.lua
-Modules\RollTracker.lua
-Modules\LootTracker.lua
-Modules\Options.lua
-Modules\Events.lua
-
-# UI
+Localization.lua
+RollTrackerClassic.lua
 RollTrackerClassic.xml
