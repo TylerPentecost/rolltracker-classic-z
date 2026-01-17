@@ -1,9 +1,77 @@
 local TOCNAME, RTC = ...
 local L = setmetatable({}, {__index = function(_, k) return RTC.L[k] end})
 
+-- GetAddOnMetadata compatibility shim for TBC Classic
+-- Make it global so LibGPIToolBox can use it
+GetAddOnMetadataCompat = GetAddOnMetadataCompat or function(addonName, field)
+	-- Try native function first (for Wrath+)
+	if GetAddOnMetadata then
+		return GetAddOnMetadata(addonName, field)
+	end
+	
+	-- For known addons, use hardcoded values from TOC file (primary solution for TBC)
+	local knownMetadata = {
+		["RollTrackerClassicZ"] = {
+			Title = "RollTracker Classic Z",
+			Version = "2.0.0",
+			Author = "GPI / Erytheia-Razorfen / Zolerii / Roadblock / Dosmod",
+			Notes = "Keeps tracks of /rolls, loot and more"
+		},
+		["RollTrackerClassicZ_TBC"] = {
+			Title = "RollTracker Classic Z",
+			Version = "2.0.0",
+			Author = "GPI / Erytheia-Razorfen / Zolerii / Roadblock / Dosmod",
+			Notes = "Keeps tracks of /rolls, loot and more"
+		},
+		["RollTrackerClassicZ_Vanilla"] = {
+			Title = "RollTracker Classic Z",
+			Version = "2.0.0",
+			Author = "GPI / Erytheia-Razorfen / Zolerii / Roadblock / Dosmod",
+			Notes = "Keeps tracks of /rolls, loot and more"
+		},
+		["RollTrackerClassicZ_Mists"] = {
+			Title = "RollTracker Classic Z",
+			Version = "2.0.0",
+			Author = "GPI / Erytheia-Razorfen / Zolerii / Roadblock / Dosmod",
+			Notes = "Keeps tracks of /rolls, loot and more"
+		}
+	}
+	
+	-- Check if we have known metadata for this addon (this should handle most cases)
+	if knownMetadata[addonName] then
+		local value = knownMetadata[addonName][field]
+		if value then
+			return value
+		end
+	end
+	
+	-- Fallback to GetAddOnInfo values (only if GetAddOnInfo exists)
+	if GetAddOnInfo then
+		local name, title, notes, _, _, _, _ = GetAddOnInfo(addonName)
+		if field == "Title" then
+			return title or ""
+		elseif field == "Notes" then
+			return notes or ""
+		end
+	end
+	
+	-- Final fallback for unknown addons or missing GetAddOnInfo
+	if field == "Title" then
+		return addonName or ""
+	elseif field == "Version" then
+		return "2.0.0"
+	elseif field == "Author" then
+		return ""
+	elseif field == "Notes" then
+		return ""
+	else
+		return nil
+	end
+end
+
 RollTrackerClassic_Addon = RTC
-RTC.Version = GetAddOnMetadata(TOCNAME, "Version")
-RTC.Title = GetAddOnMetadata(TOCNAME, "Title")
+RTC.Version = GetAddOnMetadataCompat(TOCNAME, "Version")
+RTC.Title = GetAddOnMetadataCompat(TOCNAME, "Title")
 
 RTC.MAXRARITY = 6
 RTC.IconDice = "Interface\\Buttons\\UI-GroupLoot-Dice-Up"
@@ -539,11 +607,11 @@ function RTC.OptionsInit()
     RTC.Options.AddPanel(L["PanelAbout"])
 
     RTC.Options.AddCategory(
-        "|cFFFF1C1C" .. GetAddOnMetadata(TOCNAME, "Title") .. " " ..
-            GetAddOnMetadata(TOCNAME, "Version") .. " by " ..
-            GetAddOnMetadata(TOCNAME, "Author"))
+        "|cFFFF1C1C" .. GetAddOnMetadataCompat(TOCNAME, "Title") .. " " ..
+            GetAddOnMetadataCompat(TOCNAME, "Version") .. " by " ..
+            GetAddOnMetadataCompat(TOCNAME, "Author"))
     RTC.Options.Indent(10)
-    RTC.Options.AddText(GetAddOnMetadata(TOCNAME, "Notes"))
+    RTC.Options.AddText(GetAddOnMetadataCompat(TOCNAME, "Notes"))
     RTC.Options.Indent(-10)
 
     RTC.Options.AddCategory(L["HeaderInfo"])
@@ -960,6 +1028,8 @@ local BACKDROP_TUTORIAL_16_16 = BACKDROP_TUTORIAL_16_16 or {
     edgeSize = 16,
     insets = {left = 3, right = 5, top = 3, bottom = 5}
 }
+
+-- Define OnLoad function early to ensure it's available when XML loads
 function RTC.OnLoad(self)
     -- print("rtc-onload")
     if Mixin and BackdropTemplateMixin then

@@ -2,6 +2,76 @@ local TOCNAME,Addon = ...
 Addon.Tool=Addon.Tool or {}
 local Tool=Addon.Tool
 
+-- GetAddOnMetadata compatibility shim for TBC Classic
+-- Define it here so it's available when this library loads
+-- (This is a simplified version - full version is in RollTrackerClassic.lua)
+if not GetAddOnMetadataCompat then
+	GetAddOnMetadataCompat = function(addonName, field)
+		-- Try native function first (for Wrath+)
+		if GetAddOnMetadata then
+			return GetAddOnMetadata(addonName, field)
+		end
+		
+		-- Known metadata for RollTrackerClassicZ variants (primary solution for TBC)
+		local knownMetadata = {
+			["RollTrackerClassicZ"] = {
+				Title = "RollTracker Classic Z",
+				Version = "2.0.0",
+				Author = "GPI / Erytheia-Razorfen / Zolerii / Roadblock / Dosmod",
+				Notes = "Keeps tracks of /rolls, loot and more"
+			},
+			["RollTrackerClassicZ_TBC"] = {
+				Title = "RollTracker Classic Z",
+				Version = "2.0.0",
+				Author = "GPI / Erytheia-Razorfen / Zolerii / Roadblock / Dosmod",
+				Notes = "Keeps tracks of /rolls, loot and more"
+			},
+			["RollTrackerClassicZ_Vanilla"] = {
+				Title = "RollTracker Classic Z",
+				Version = "2.0.0",
+				Author = "GPI / Erytheia-Razorfen / Zolerii / Roadblock / Dosmod",
+				Notes = "Keeps tracks of /rolls, loot and more"
+			},
+			["RollTrackerClassicZ_Mists"] = {
+				Title = "RollTracker Classic Z",
+				Version = "2.0.0",
+				Author = "GPI / Erytheia-Razorfen / Zolerii / Roadblock / Dosmod",
+				Notes = "Keeps tracks of /rolls, loot and more"
+			}
+		}
+		
+		if knownMetadata[addonName] then
+			local value = knownMetadata[addonName][field]
+			if value then
+				return value
+			end
+		end
+		
+		-- Fallback to GetAddOnInfo values (only if GetAddOnInfo exists)
+		if GetAddOnInfo then
+			local name, title, notes, _, _, _, _ = GetAddOnInfo(addonName)
+			if field == "Title" then
+				return title or ""
+			elseif field == "Notes" then
+				return notes or ""
+			end
+		end
+		
+		-- Final fallback for unknown addons or missing GetAddOnInfo
+		if field == "Title" then
+			return addonName or ""
+		elseif field == "Version" then
+			return "2.0.0"
+		elseif field == "Author" then
+			return ""
+		elseif field == "Notes" then
+			return ""
+		else
+			return nil
+		end
+	end
+end
+
 Tool.IconClassTexture="Interface\\GLUES\\CHARACTERCREATE\\UI-CHARACTERCREATE-CLASSES"
 Tool.IconClassTextureWithoutBorder="Interface\\WorldStateFrame\\ICONS-CLASSES"
 Tool.IconClassTextureCoord=CLASS_ICON_TCOORDS
@@ -631,7 +701,7 @@ function Tool.AddDataBrocker(icon,onClick,onTooltipShow,text)
 				OnClick = onClick,
 				OnTooltipShow = onTooltipShow,
 				tocname = TOCNAME,
-				label = text or GetAddOnMetadata(TOCNAME, "Title"),
+				label = text or GetAddOnMetadataCompat(TOCNAME, "Title"),
 			})
 		end
 	end	
@@ -695,8 +765,8 @@ end
 local function mySlashs(msg)
 	if msg=="help" then
 		local colCmd="|cFFFF9C00"
-		print("|cFFFF1C1C"..GetAddOnMetadata(TOCNAME, "Title") .." ".. GetAddOnMetadata(TOCNAME, "Version") .." by "..GetAddOnMetadata(TOCNAME, "Author"))
-		print(GetAddOnMetadata(TOCNAME, "Notes"))		
+		print("|cFFFF1C1C"..GetAddOnMetadataCompat(TOCNAME, "Title") .." ".. GetAddOnMetadataCompat(TOCNAME, "Version") .." by "..GetAddOnMetadataCompat(TOCNAME, "Author"))
+		print(GetAddOnMetadataCompat(TOCNAME, "Notes"))		
 		if type(slashCmd)=="table" then
 			print("SlashCommand:",colCmd,slashUnpack(slashCmd,"|r, "..colCmd),"|r")
 		end

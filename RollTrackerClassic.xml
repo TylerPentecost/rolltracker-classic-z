@@ -1,4 +1,4 @@
-﻿<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
 ..\..\..\Interface\FrameXML\UI.xsd">
 	<Button name="RollTrackerClassic_MiniButton" inherits="UIPanelButtonTemplate" virtual="true">
 		<NormalFont style="GameFontNormalSmall" />
@@ -429,10 +429,14 @@
 
 		<Scripts>
 			<OnLoad inherit="prepend">
-				RollTrackerClassic_Addon.OnLoad(self)
+				if RollTrackerClassic_Addon and RollTrackerClassic_Addon.OnLoad then
+					RollTrackerClassic_Addon.OnLoad(self)
+				end
 			</OnLoad>
 			<OnEvent>
-				RollTrackerClassic_Addon.OnEvent(event, ...);
+				if RollTrackerClassic_Addon and RollTrackerClassic_Addon.OnEvent then
+					RollTrackerClassic_Addon.OnEvent(event, ...);
+				end
 			</OnEvent>
 		</Scripts>
 	</Frame>
